@@ -65,7 +65,30 @@ public final class Libro {
             return new Libro(this);
         }
 
+    }
 
+    public String getTitolo() {
+        return titolo;
+    }
+
+    public List<Autore> getAutori() {
+        return autori;
+    }
+
+    public Set<GenereLibro> getGeneri() {
+        return generi;
+    }
+
+    public ValutazioneLibro getValutazione() {
+        return valutazione;
+    }
+
+    public StatoLibro getStato() {
+        return stato;
+    }
+
+    public String getISBN() {
+        return ISBN;
     }
 
 }
