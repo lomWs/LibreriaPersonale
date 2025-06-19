@@ -1,12 +1,14 @@
 package main.model;
 
 public enum ValutazioneLibro implements Formattabile {
+    //non cambia mai ordine, nel codice uso ordinal
+    NULL("☆☆☆☆☆"),
     INSUFFICIENTE("★☆☆☆☆"),
     SUFFICIENTE("★★☆☆☆"),
     BUONO("★★★☆☆"),
     OTTIMO("★★★★☆"),
-    ECCELLENTE("★★★★★"),
-    NULL("☆☆☆☆☆");
+    ECCELLENTE("★★★★★");
+
     private final String label;
 
     ValutazioneLibro(String label){

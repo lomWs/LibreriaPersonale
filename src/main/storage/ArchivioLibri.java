@@ -1,7 +1,9 @@
 package main.storage;
 
 import main.model.Libro;
+import main.query.QueryLibro;
 
+import javax.management.Query;
 import java.util.List;
 
 public interface ArchivioLibri {
@@ -15,9 +17,15 @@ public interface ArchivioLibri {
 
     public void elimina(List<String> ListaISBN);
 
-    public List<Libro> visualizza();
+    public void modifica(String ISBN,Libro libroModificato);
 
-    //da agiungere visualizzazione con fintri e ordinamento
+    public Libro cerca(String ISBN);
+
+    //public List<Libro> visualizza();
+
+    public List<Libro> cerca(QueryLibro q);
+
+
 
 
 }
