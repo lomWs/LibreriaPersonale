@@ -2,13 +2,15 @@ package main.query.filtro;
 
 import main.model.Libro;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class CompositeFiltroArchivio implements FiltroArchivio {
 
     private List<FiltroArchivio> figli = new ArrayList<>();
+
+    CompositeFiltroArchivio() {
+
+    }
 
     @Override
     public boolean filtra(Libro l) {
@@ -25,4 +27,24 @@ public class CompositeFiltroArchivio implements FiltroArchivio {
         if (!figli.contains(f))
             figli.add(f);
     }
+
+
+
+    public boolean equals(Object obj) {
+        if (!(obj instanceof CompositeFiltroArchivio other)) return false;
+        return new HashSet<>(this.figli).equals(new HashSet<>(other.figli));
+        // usa set per ordine irrilevante;
+    }
+
+
+    public int hashCode() {
+        return Objects.hash( new HashSet<>(this.figli));
+    }
+
+
+    public String toString() {
+        return "Filtro composto: " + this.figli;
+    }
+
+
 }
