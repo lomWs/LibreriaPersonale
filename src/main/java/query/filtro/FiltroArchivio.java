@@ -1,6 +1,6 @@
-package main.query.filtro;
+package query.filtro;
 
-import main.model.Libro;
+import model.Libro;
 
 public interface FiltroArchivio {
 

@@ -1,6 +1,6 @@
-package main.query.ordinamento;
+package query.ordinamento;
 
-import main.model.Libro;
+import model.Libro;
 
 import java.util.Comparator;
 

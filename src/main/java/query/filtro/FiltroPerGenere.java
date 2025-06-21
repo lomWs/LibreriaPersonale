@@ -1,9 +1,9 @@
-package main.query.filtro;
+package query.filtro;
 
-import main.model.GenereLibro;
-import main.model.Libro;
+import model.GenereLibro;
+import model.Libro;
 
-public class FiltroPerGenere implements FiltroArchivio{
+public class FiltroPerGenere implements FiltroArchivio {
     private GenereLibro genere;
 
     FiltroPerGenere(GenereLibro g){

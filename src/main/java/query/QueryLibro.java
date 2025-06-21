@@ -1,7 +1,7 @@
-package main.query;
+package query;
 
-import main.query.filtro.FiltroArchivio;
-import main.query.ordinamento.OrdinamentoArchivio;
+import query.filtro.FiltroArchivio;
+import query.ordinamento.OrdinamentoArchivio;
 
 import java.util.ArrayList;
 import java.util.List;

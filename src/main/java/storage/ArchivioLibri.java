@@ -1,9 +1,8 @@
-package main.storage;
+package storage;
 
-import main.model.Libro;
-import main.query.QueryLibro;
+import model.Libro;
+import query.QueryLibro;
 
-import javax.management.Query;
 import java.util.List;
 
 public interface ArchivioLibri {

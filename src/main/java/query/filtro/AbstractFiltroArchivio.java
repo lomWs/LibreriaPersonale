@@ -1,10 +1,10 @@
-package main.query.filtro;
+package query.filtro;
 
-import main.model.Libro;
+import model.Libro;
 
 import java.util.Objects;
 
-public abstract class AbstractFiltroArchivio implements FiltroArchivio{
+public abstract class AbstractFiltroArchivio implements FiltroArchivio {
 
     private String nomeFiltro;
 

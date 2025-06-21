@@ -1,4 +1,4 @@
-package main.model;
+package model;
 
 public enum StatoLibro implements Formattabile {
     LETTO("Letto"),

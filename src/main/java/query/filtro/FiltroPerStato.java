@@ -1,9 +1,9 @@
-package main.query.filtro;
+package query.filtro;
 
-import main.model.Libro;
-import main.model.StatoLibro;
+import model.Libro;
+import model.StatoLibro;
 
-public class FiltroPerStato implements FiltroArchivio{
+public class FiltroPerStato implements FiltroArchivio {
     private StatoLibro stato;
 
     FiltroPerStato(StatoLibro s ){

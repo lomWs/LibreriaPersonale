@@ -1,9 +1,10 @@
-package main.query.filtro;
+package query.filtro;
 
-import main.model.Libro;
-import main.model.ValutazioneLibro;
 
-public class FiltroPerValutazione implements FiltroArchivio{
+import model.Libro;
+import model.ValutazioneLibro;
+
+public class FiltroPerValutazione implements FiltroArchivio {
 
     private ValutazioneLibro valutazione;
 

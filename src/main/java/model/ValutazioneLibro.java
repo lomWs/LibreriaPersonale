@@ -1,4 +1,4 @@
-package main.model;
+package model;
 
 public enum ValutazioneLibro implements Formattabile {
     //non cambia mai ordine, nel codice uso ordinal
