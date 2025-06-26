@@ -18,11 +18,6 @@ public abstract class AbstractFiltroArchivio implements FiltroArchivio {
     public abstract boolean filtra(Libro l);
 
 
-
-
-
-
-
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;

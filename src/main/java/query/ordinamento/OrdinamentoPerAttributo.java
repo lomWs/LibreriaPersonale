@@ -18,10 +18,10 @@ public class OrdinamentoPerAttributo<T extends Comparable<T>> implements Ordinam
 
     @Override
     public int compare(Libro a, Libro b) {
-        T valA = estrattore.apply(a);
-        T valB = estrattore.apply(b);
+        T valA = this.estrattore.apply(a);
+        T valB = this.estrattore.apply(b);
         int result = valA.compareTo(valB);
-        return crescente ? result : -result;
+        return this.crescente ? result : -result;
     }
 
 

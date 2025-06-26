@@ -8,9 +8,10 @@ public class CompositeFiltroArchivio implements FiltroArchivio {
 
     private List<FiltroArchivio> figli = new ArrayList<>();
 
-    CompositeFiltroArchivio() {
-
+    public CompositeFiltroArchivio(List<FiltroArchivio> figli){
+        this.figli=new ArrayList<>(figli);
     }
+    public CompositeFiltroArchivio(){}
 
     @Override
     public boolean filtra(Libro l) {
@@ -18,22 +19,30 @@ public class CompositeFiltroArchivio implements FiltroArchivio {
     }
 
 
-    public void aggiungi(FiltroArchivio f){
-        if (!figli.contains(f))
-            figli.add(f);
+    // i metodi di aggiunta e rimozione, non devono rendere lo stato dell'oggetto inconsistente
+    public CompositeFiltroArchivio aggiungi(FiltroArchivio f){
+        List<FiltroArchivio> nuoviFiltri = new ArrayList<>(this.figli);
+        nuoviFiltri.add(f);
+        return new CompositeFiltroArchivio(nuoviFiltri);
     }
 
-    public void rimuovi(FiltroArchivio f){
-        if (!figli.contains(f))
-            figli.add(f);
+    public CompositeFiltroArchivio rimuovi(FiltroArchivio f){
+        List<FiltroArchivio> nuoviFiltri = new ArrayList<>(this.figli);
+        nuoviFiltri.remove(f);
+        return new CompositeFiltroArchivio(nuoviFiltri);
     }
 
 
+
+
+    public List<FiltroArchivio> getFigli() {
+        return new ArrayList<>(figli);
+    }
 
     public boolean equals(Object obj) {
         if (!(obj instanceof CompositeFiltroArchivio other)) return false;
         return new HashSet<>(this.figli).equals(new HashSet<>(other.figli));
-        // usa set per ordine irrilevante;
+        // set, ordine irrilevante;
     }
 
 
