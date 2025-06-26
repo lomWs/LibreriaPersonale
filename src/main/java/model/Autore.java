@@ -6,7 +6,7 @@ public final class Autore {
     private String citta;
     private String dataNascita;
 
-    Autore(String nome,String cognome,String citta,String dataNascita){
+    public Autore(String nome,String cognome,String citta,String dataNascita){
         this.nome=nome;
         this.cognome=cognome;
         this.citta=citta;

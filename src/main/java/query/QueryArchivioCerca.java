@@ -6,17 +6,14 @@ import query.ordinamento.OrdinamentoArchivio;
 
 public class QueryArchivioCerca extends AbstractQueryArchivio {
 
-    private String ISBN;
     private FiltroArchivio f;
     private OrdinamentoArchivio o;
 
-    QueryArchivioCerca(ArchivioLibri a, String ISBN){
-        super(a);
-        this.ISBN=ISBN;
-    }
+
     QueryArchivioCerca(ArchivioLibri a,FiltroArchivio f){
         super(a);
         this.f=f;
+        this.o=null;
     }
     QueryArchivioCerca(ArchivioLibri a,FiltroArchivio f, OrdinamentoArchivio o){
         super(a);
@@ -26,13 +23,11 @@ public class QueryArchivioCerca extends AbstractQueryArchivio {
     QueryArchivioCerca(ArchivioLibri a,OrdinamentoArchivio o){
         super(a);
         this.o=o;
+        this.f=null;
     }
 
     @Override
     public void esegui() {
-        if(ISBN != null)
-            archivio.cerca(this.ISBN);
-        else
             archivio.cerca(this.f,this.o);
 
     }

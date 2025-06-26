@@ -13,17 +13,17 @@ public class QueryArchivioElimina extends AbstractQueryArchivio{
 
 
 
-    QueryArchivioElimina(ArchivioLibri a, String ISBN) {
+    public QueryArchivioElimina(ArchivioLibri a, String ISBN) {
         super(a);
         listaISBN =new ArrayList<>();
         listaISBN.add(ISBN);
 
     }
-    QueryArchivioElimina(ArchivioLibri a,List<String> isbn){
+    public  QueryArchivioElimina(ArchivioLibri a,List<String> isbn){
         super(a);
         listaISBN = new ArrayList<>(isbn);
     }
-    QueryArchivioElimina(ArchivioLibri a,FiltroArchivio f){
+    public QueryArchivioElimina(ArchivioLibri a,FiltroArchivio f){
         super(a);
         this.f=f;
     }

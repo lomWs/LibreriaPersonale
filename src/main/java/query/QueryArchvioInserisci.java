@@ -9,12 +9,13 @@ import java.util.List;
 public class QueryArchvioInserisci extends AbstractQueryArchivio{
 
    private List<Libro> libri;
-    QueryArchvioInserisci(ArchivioLibri a,Libro l ){
+
+    public  QueryArchvioInserisci(ArchivioLibri a,Libro l ){
         super(a);
         this.libri = new ArrayList<>();
         libri.add(l);
     }
-    QueryArchvioInserisci(ArchivioLibri a, List<Libro> libri){
+    public  QueryArchvioInserisci(ArchivioLibri a, List<Libro> libri){
         super(a);
         this.libri = new ArrayList<>(libri);
     }
