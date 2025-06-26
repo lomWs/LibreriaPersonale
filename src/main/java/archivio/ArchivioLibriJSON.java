@@ -1,6 +1,7 @@
 package archivio;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 import model.Libro;
 import query.filtro.FiltroArchivio;
@@ -26,7 +27,16 @@ public class ArchivioLibriJSON implements ArchivioLibri{
      public  ArchivioLibriJSON(String percorsoFileDB){
         this.percorsoFileDB = percorsoFileDB;
         this.fileJson = Path.of(percorsoFileDB);
-        this.gson=new Gson();
+        this.gson=new GsonBuilder()
+                .setPrettyPrinting()
+                .create();
+
+    }
+
+    public  ArchivioLibriJSON(String percorsoFileDB,Gson gson){
+        this.percorsoFileDB = percorsoFileDB;
+        this.fileJson = Path.of(percorsoFileDB);
+        this.gson=gson;
 
     }
 
