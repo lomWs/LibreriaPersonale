@@ -131,6 +131,4 @@ public class ArchivioLibriJSON implements ArchivioLibri{
 
 
 
-
-
 }
