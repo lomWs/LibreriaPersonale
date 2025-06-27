@@ -6,7 +6,7 @@ import model.StatoLibro;
 public class FiltroPerStato implements FiltroArchivio {
     private StatoLibro stato;
 
-    FiltroPerStato(StatoLibro s ){
+    public FiltroPerStato(StatoLibro s ){
         this.stato = s;
     }
 

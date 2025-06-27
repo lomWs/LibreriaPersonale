@@ -10,17 +10,17 @@ public class QueryArchivioCerca extends AbstractQueryArchivio {
     private OrdinamentoArchivio o;
 
 
-    QueryArchivioCerca(ArchivioLibri a,FiltroArchivio f){
+    public QueryArchivioCerca(ArchivioLibri a,FiltroArchivio f){
         super(a);
         this.f=f;
         this.o=null;
     }
-    QueryArchivioCerca(ArchivioLibri a,FiltroArchivio f, OrdinamentoArchivio o){
+    public QueryArchivioCerca(ArchivioLibri a,FiltroArchivio f, OrdinamentoArchivio o){
         super(a);
         this.f=f;
         this.o=o;
     }
-    QueryArchivioCerca(ArchivioLibri a,OrdinamentoArchivio o){
+    public QueryArchivioCerca(ArchivioLibri a,OrdinamentoArchivio o){
         super(a);
         this.o=o;
         this.f=null;
@@ -28,7 +28,9 @@ public class QueryArchivioCerca extends AbstractQueryArchivio {
 
     @Override
     public void esegui() {
-            archivio.cerca(this.f,this.o);
+        //print momentanea da rimuovere
+        System.out.println(
+            archivio.cerca(this.f,this.o));
 
     }
 

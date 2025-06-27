@@ -6,7 +6,7 @@ import model.Libro;
 public class FiltroPerGenere implements FiltroArchivio {
     private GenereLibro genere;
 
-    FiltroPerGenere(GenereLibro g){
+    public FiltroPerGenere(GenereLibro g){
         this.genere=g;
     }
 
