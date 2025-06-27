@@ -9,7 +9,8 @@ public class FiltroPerAutore implements FiltroArchivio{
 
     private String autore;
 
-    FiltroPerAutore(String autore){
+    public FiltroPerAutore(String autore){
+        super();
         this.autore = autore;
     }
 
@@ -20,7 +21,8 @@ public class FiltroPerAutore implements FiltroArchivio{
         for(Autore a : l.getAutori()){
 
             for (int i=0;i<sottoStringheAutore.length;i++){
-                if(a.getNome().contains(sottoStringheAutore[i]) || a.getCognome().contains(sottoStringheAutore[i]) )
+                if(a.getNome().toLowerCase().contains(sottoStringheAutore[i])
+                    || a.getCognome().toLowerCase().contains(sottoStringheAutore[i]) )
                     return true;
 
             }

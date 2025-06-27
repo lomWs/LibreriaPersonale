@@ -15,7 +15,7 @@ public final class Libro {
 
 
 
-    Libro(Builder builder){
+    Libro(LibroBuilder builder){
         this.autori = builder.autori == null ?
                     new ArrayList<>() : new ArrayList<>(builder.autori);//autore è immutabile
         this.titolo = builder.titolo;
@@ -27,7 +27,7 @@ public final class Libro {
 
     }
 
-    public static class Builder{
+    public static class LibroBuilder{
         //parametri obligatori
         private  List<Autore> autori ;
         private String titolo;
@@ -40,23 +40,23 @@ public final class Libro {
 
 
 
-        public Builder(List<Autore> autori,String titolo,String ISBN){
+        public LibroBuilder(List<Autore> autori,String titolo,String ISBN){
             this.autori=autori;
             this.titolo=titolo;
             this.ISBN=ISBN;
         }
 
-        public Builder stato(StatoLibro stato){
+        public LibroBuilder stato(StatoLibro stato){
             this.stato=stato;
             return this;
         }
 
-        public Builder generi(Set<GenereLibro> generi){
+        public LibroBuilder generi(Set<GenereLibro> generi){
             this.generi=generi;
             return this;
         }
 
-        public Builder valutazione(ValutazioneLibro valutazione){
+        public LibroBuilder valutazione(ValutazioneLibro valutazione){
             this.valutazione=valutazione;
             return this;
         }
