@@ -7,15 +7,19 @@ import java.util.*;
 public class CompositeFiltroArchivio implements FiltroArchivio {
 
     private List<FiltroArchivio> figli = new ArrayList<>();
+    private String operazione; // AND or OR
 
-    public CompositeFiltroArchivio(List<FiltroArchivio> figli){
+    public CompositeFiltroArchivio(List<FiltroArchivio> figli,String operazione){
         this.figli=new ArrayList<>(figli);
     }
     public CompositeFiltroArchivio(){}
 
     @Override
     public boolean filtra(Libro l) {
-        return figli.stream().allMatch(f -> f.filtra(l));//and tra tutti i filtri inseriti
+        if(operazione=="AND")
+            return figli.stream().allMatch(f -> f.filtra(l));//and tra tutti i filtri inseriti
+
+        return figli.stream().anyMatch(f -> f.filtra(l));//or tra tutti i filtri inseriti
     }
 
 
@@ -23,13 +27,13 @@ public class CompositeFiltroArchivio implements FiltroArchivio {
     public CompositeFiltroArchivio aggiungi(FiltroArchivio f){
         List<FiltroArchivio> nuoviFiltri = new ArrayList<>(this.figli);
         nuoviFiltri.add(f);
-        return new CompositeFiltroArchivio(nuoviFiltri);
+        return new CompositeFiltroArchivio(nuoviFiltri,this.operazione);
     }
 
     public CompositeFiltroArchivio rimuovi(FiltroArchivio f){
         List<FiltroArchivio> nuoviFiltri = new ArrayList<>(this.figli);
         nuoviFiltri.remove(f);
-        return new CompositeFiltroArchivio(nuoviFiltri);
+        return new CompositeFiltroArchivio(nuoviFiltri,this.operazione);
     }
 
 
