@@ -10,9 +10,12 @@ public class CompositeFiltroArchivio implements FiltroArchivio {
     private String operazione; // AND or OR
 
     public CompositeFiltroArchivio(List<FiltroArchivio> figli,String operazione){
+        this.operazione=operazione;
         this.figli=new ArrayList<>(figli);
     }
-    public CompositeFiltroArchivio(){}
+    public CompositeFiltroArchivio(String operazione){
+        this.operazione=operazione;
+    }
 
     @Override
     public boolean filtra(Libro l) {
