@@ -19,24 +19,32 @@ import java.util.Set;
 
 public class NuovoLibroDialog extends JDialog {
 
-    private final JTextField titoloField;
-    private final JTextField isbnField;
-    private final JList<GenereLibro> generiList;
+    private  JTextField titoloField;
+    private  JTextField isbnField;
+    private  JList<GenereLibro> generiList;
     private  JComboBox<StatoLibro> statoLibroJComboBox;
-    private final JComboBox<ValutazioneLibro> valutazioneCombo;
-    private JPanel autoriPanel;
+    private  JComboBox<ValutazioneLibro> valutazioneCombo;
+    private  JPanel autoriPanel;
     private final List<JTextField[]> autoriFields = new ArrayList<>();
     private final TemaFactory tema = GestoreTema.getInstance().getFactoryTemaAttuale();
-    private ArchivioLibri a;
-    public NuovoLibroDialog(Frame owner, ArchivioLibri archivioLibri) {
-        super(owner, "Nuovo libro", true);
+    private final ArchivioLibri archivioLibri;
 
-        a = archivioLibri;
+
+    public NuovoLibroDialog(Frame framePropietario, ArchivioLibri archivioLibri) {
+        super(framePropietario, "Nuovo libro", true);
+
+        this.archivioLibri = archivioLibri;
         setSize(520, 650);
-        setLocationRelativeTo(owner);
+        setLocationRelativeTo(framePropietario);
         setLayout(new BorderLayout());
         getContentPane().setBackground(tema.getColorePrimarioSfondo());
+        aggiungiComponentiGUI();
 
+    }
+
+
+    // metodo per l'inizializzazione del JDialog, imposto le preferenze
+    private void aggiungiComponentiGUI(){
         JLabel header = new JLabel("Aggiungi un nuovo libro");
         header.setFont(tema.getFontTitolo());
         header.setForeground(tema.getColoreTesto());
@@ -57,9 +65,9 @@ public class NuovoLibroDialog extends JDialog {
         formPanel.add(Box.createVerticalStrut(25));
         formPanel.add(createEnumSelectionPanel("Genere", generiList = new JList<>(GenereLibro.values())));
         formPanel.add(Box.createVerticalStrut(25));
-        formPanel.add(createComboBoxPanel("Stato", statoLibroJComboBox =  new JComboBox<>(StatoLibro.values())));
+        formPanel.add(creaComboBoxPanel("Stato", statoLibroJComboBox =  new JComboBox<>(StatoLibro.values())));
         formPanel.add(Box.createVerticalStrut(25));
-        formPanel.add(createComboBoxPanel("Valutazione", valutazioneCombo = new JComboBox<>(ValutazioneLibro.values())));
+        formPanel.add(creaComboBoxPanel("Valutazione", valutazioneCombo = new JComboBox<>(ValutazioneLibro.values())));
 
         JScrollPane scrollPane = tema.creaScrollPane(formPanel);
         add(scrollPane, BorderLayout.CENTER);
@@ -86,10 +94,17 @@ public class NuovoLibroDialog extends JDialog {
                     .valutazione(valutazione)
                     .stato(statoLibro)
                     .build();
-            QueryArchivioIF queryAggiungiLibro = new QueryArchvioInserisci(a,nuovoLibro);
-            queryAggiungiLibro.esegui();
+            QueryArchivioIF queryAggiungiLibro = new QueryArchvioInserisci(archivioLibri,nuovoLibro);
+            try {
+                queryAggiungiLibro.esegui();
+            } catch (RuntimeException ex) {
+                JOptionPane.showMessageDialog(this,
+                        "Errore: ISBN già presente o libro duplicato.",
+                        "Errore di inserimento",
+                        JOptionPane.ERROR_MESSAGE);
+            }
 
-            System.out.println("✔ Libro: " + nuovoLibro);
+            System.out.println(" Libro: " + nuovoLibro);
             dispose();
         });
 
@@ -103,7 +118,12 @@ public class NuovoLibroDialog extends JDialog {
         bottom.add(salva);
 
         add(bottom, BorderLayout.SOUTH);
+
+
     }
+
+
+    // metodi privati per la gestione dei componenti interni al JDialog
 
     private JPanel creaFormField(String labelText, JTextField field) {
         JPanel panel = new JPanel(new BorderLayout());
@@ -158,8 +178,8 @@ public class NuovoLibroDialog extends JDialog {
         JTextField cognome = tema.creaTextField();
 
 
-        setupPlaceholder(nome, "Nome");
-        setupPlaceholder(cognome, "Cognome");
+        configuraPlaceholder(nome, "Nome");
+        configuraPlaceholder(cognome, "Cognome");
 
         row.add(nome);
         row.add(cognome);
@@ -196,10 +216,9 @@ public class NuovoLibroDialog extends JDialog {
         return panel;
     }
 
-    private JPanel createComboBoxPanel(String labelText, JComboBox<?> comboBox) {
+    private JPanel creaComboBoxPanel(String labelText, JComboBox<?> comboBox) {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBackground(tema.getColoreSecondarioSfondo());
-
         JLabel label = new JLabel(labelText);
         label.setForeground(tema.getColoreTesto());
         label.setFont(tema.getFontPrimario().deriveFont(Font.BOLD));
@@ -216,8 +235,8 @@ public class NuovoLibroDialog extends JDialog {
     }
 
 
-    //metodo per il comportamento del testo se cliccato (nome , cognome)
-    private void setupPlaceholder(JTextField field, String placeholder) {
+    //metodo per il comportamento del testo se cliccato (nome , cognome) sparisce il testo
+    private void configuraPlaceholder(JTextField field, String placeholder) {
         field.setText(placeholder);
         field.setForeground(Color.GRAY);
 
