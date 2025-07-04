@@ -13,6 +13,11 @@ public final class Autore {
         this.dataNascita=dataNascita;
     }
 
+    public Autore(String nome,String cognome){
+        this.nome=nome;
+        this.cognome=cognome;
+    }
+
     public String getNome() {
         return nome;
     }
@@ -29,4 +34,8 @@ public final class Autore {
         return dataNascita;
     }
 
+    @Override
+    public String toString() {
+        return this.nome +" "+ this.cognome;
+    }
 }
