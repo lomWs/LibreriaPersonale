@@ -1,6 +1,7 @@
 package archivio;
 
 import model.Libro;
+import observer.Subject;
 import query.QueryArchivioIF;
 import query.filtro.FiltroArchivio;
 import query.filtro.FiltroPerISBN;
@@ -8,7 +9,7 @@ import query.ordinamento.OrdinamentoArchivio;
 
 import java.util.List;
 
-public interface ArchivioLibri {
+public interface ArchivioLibri extends Subject {
 
 
     public void inserisci(Libro l);
