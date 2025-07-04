@@ -1,6 +1,8 @@
 package gui.componenti;
 
 import archivio.ArchivioLibri;
+import gui.temi.GestoreTema;
+import gui.temi.TemaFactory;
 import model.Libro;
 import observer.Observer;
 import observer.Subject;
@@ -16,11 +18,12 @@ import java.util.List;
 
 public class GridBoxLibroPanel extends JPanel implements Observer {
     private final  ArchivioLibri archivioLibri;
+    private final TemaFactory tema = GestoreTema.getInstance().getFactoryTemaAttuale();
     public GridBoxLibroPanel(ArchivioLibri archivioLibri, List<Libro> libri) {
         this.archivioLibri = archivioLibri;
         setLayout(new GridLayout(0, 4, 20, 20));
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        setBackground(new Color(20, 20, 20));
+        setBackground(tema.getColorePrimarioSfondo());
         setOpaque(true);
 
         archivioLibri.aggiungiObserver(this);
@@ -45,13 +48,13 @@ public class GridBoxLibroPanel extends JPanel implements Observer {
             @Override
             public void mouseEntered(MouseEvent e) {
                 box.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-                box.setBackground(new Color(60, 60, 60));
+                box.setBackground(tema.getColoreTerziarioSfondo());
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
                 box.setCursor(Cursor.getDefaultCursor());
-                box.setBackground(new Color(40, 40, 40));
+                box.setBackground(tema.getColoreSecondarioSfondo());
             }
         });
 

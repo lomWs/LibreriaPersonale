@@ -89,7 +89,7 @@ public class BoxLibroDialog extends JDialog {
 
         JLabel val = new JLabel(value);
         val.setFont(tema.getFontPrimario());
-        val.setForeground(Color.LIGHT_GRAY);
+        val.setForeground(tema.getColoreTesto());
 
         row.add(lbl, BorderLayout.WEST);
         row.add(val, BorderLayout.CENTER);

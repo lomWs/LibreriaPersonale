@@ -23,4 +23,6 @@ public interface TemaFactory {
     // Font base
     Font getFontPrimario();
     Font getFontTitolo();
+
+    Color getColoreTerziarioSfondo();
 }
