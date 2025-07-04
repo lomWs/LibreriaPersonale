@@ -1,8 +1,5 @@
 package model;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public final class Libro {
     private List<Autore> autori ;
@@ -66,7 +63,6 @@ public final class Libro {
         }
 
 
-
     }
 
     public String getTitolo() {
@@ -91,6 +87,28 @@ public final class Libro {
 
     public String getISBN() {
         return ISBN;
+    }
+
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Libro libro = (Libro) o;
+        return Objects.equals(ISBN, libro.ISBN);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(ISBN);
+    }
+
+    @Override
+    public String toString() {
+        return this.getTitolo() + " "
+               +this.getISBN() + " "
+                +this.getAutori() + " "
+                + this.getGeneri();
     }
 
 }
