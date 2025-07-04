@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface QueryArchivioIF {
 
-    public List<?> esegui();
+    public List<Libro> esegui();
 }

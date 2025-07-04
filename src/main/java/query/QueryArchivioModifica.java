@@ -15,7 +15,7 @@ public class QueryArchivioModifica extends AbstractQueryArchivio {
     }
 
     @Override
-    public List<?> esegui() {
+    public List<Libro>  esegui() {
 
         this.archivio.modifica(this.l);
 

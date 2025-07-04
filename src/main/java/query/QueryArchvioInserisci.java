@@ -21,7 +21,7 @@ public class QueryArchvioInserisci extends AbstractQueryArchivio{
     }
 
     @Override
-    public List<?> esegui() {
+    public List<Libro> esegui() {
             archivio.inserisci(libri);
 
         return null;

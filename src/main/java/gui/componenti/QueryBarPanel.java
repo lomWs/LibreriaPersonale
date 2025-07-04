@@ -39,6 +39,10 @@ public class QueryBarPanel extends JPanel {
         JButton aggiungiButton = tema.creaBottonePrincipale("Aggiungi");
         aggiungiButton.addActionListener(e -> mostraDialogNuovoLibro());
 
+
+
+
+
         add(filtriButton);
         add(aggiungiButton);
     }

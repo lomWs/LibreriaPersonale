@@ -1,6 +1,7 @@
 package query;
 
 import archivio.ArchivioLibri;
+import model.Libro;
 import query.filtro.FiltroArchivio;
 
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ public class QueryArchivioElimina extends AbstractQueryArchivio{
 
 
     @Override
-    public List<?> esegui() {
+    public List<Libro> esegui() {
         if(listaISBN == null)
             archivio.elimina(f);
         else{
