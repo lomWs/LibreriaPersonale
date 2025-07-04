@@ -12,9 +12,9 @@ import java.util.List;
 public interface ArchivioLibri extends Subject {
 
 
-    public void inserisci(Libro l);
+    public void inserisci(Libro l) throws LibriPresentiException;
 
-    public default void inserisci(List<Libro> libri){
+    public default void inserisci(List<Libro> libri)throws LibriPresentiException{
         for (Libro l: libri)
             inserisci(l);
     }
