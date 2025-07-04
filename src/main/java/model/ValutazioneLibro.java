@@ -2,12 +2,12 @@ package model;
 
 public enum ValutazioneLibro implements Formattabile {
     //non cambia mai ordine, nel codice uso ordinal
-    NULL("☆☆☆☆☆"),
-    INSUFFICIENTE("★☆☆☆☆"),
-    SUFFICIENTE("★★☆☆☆"),
-    BUONO("★★★☆☆"),
-    OTTIMO("★★★★☆"),
-    ECCELLENTE("★★★★★");
+    NULL("NULL"),
+    INSUFFICIENTE("⭐"),
+    SUFFICIENTE("⭐⭐"),
+    BUONO("⭐⭐⭐"),
+    OTTIMO("⭐⭐⭐⭐"),
+    ECCELLENTE("⭐⭐⭐⭐⭐");
 
     private final String label;
 
@@ -19,4 +19,11 @@ public enum ValutazioneLibro implements Formattabile {
     public String formatoDisplay() {
         return label;
     }
+
+    @Override
+    public String toString() {
+        return label;
+    }
+
+
 }
