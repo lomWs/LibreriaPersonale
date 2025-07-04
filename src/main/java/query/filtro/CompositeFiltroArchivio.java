@@ -19,7 +19,7 @@ public class CompositeFiltroArchivio implements FiltroArchivio {
 
     @Override
     public boolean filtra(Libro l) {
-        if(operazione=="AND")
+        if("AND".equalsIgnoreCase(this.operazione))
             return figli.stream().allMatch(f -> f.filtra(l));//and tra tutti i filtri inseriti
 
         return figli.stream().anyMatch(f -> f.filtra(l));//or tra tutti i filtri inseriti
