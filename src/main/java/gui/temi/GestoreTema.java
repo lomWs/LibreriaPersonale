@@ -9,7 +9,7 @@ public final class GestoreTema {
         temaFactoryDefault = new TemaScuroFactory();
     }
 
-    public static synchronized GestoreTema getInstance() {
+    public static  GestoreTema getInstance() {
         if (istanza == null) {
             istanza= new GestoreTema();
         }
@@ -20,7 +20,7 @@ public final class GestoreTema {
         return temaFactoryDefault;
     }
 
-    public  void setFactoryTema(TemaFactory temaFactory) {
+    public static void setFactoryTema(TemaFactory temaFactory) {
         temaFactoryDefault = temaFactory;
     }
 }
