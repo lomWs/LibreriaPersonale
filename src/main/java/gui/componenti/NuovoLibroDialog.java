@@ -1,0 +1,246 @@
+package gui.componenti;
+
+import archivio.ArchivioLibri;
+import gui.temi.GestoreTema;
+import gui.temi.TemaFactory;
+import model.*;
+import query.QueryArchivioIF;
+import query.QueryArchvioInserisci;
+
+import javax.swing.*;
+import java.awt.*;
+
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+public class NuovoLibroDialog extends JDialog {
+
+    private final JTextField titoloField;
+    private final JTextField isbnField;
+    private final JList<GenereLibro> generiList;
+    private  JComboBox<StatoLibro> statoLibroJComboBox;
+    private final JComboBox<ValutazioneLibro> valutazioneCombo;
+    private JPanel autoriPanel;
+    private final List<JTextField[]> autoriFields = new ArrayList<>();
+    private final TemaFactory tema = GestoreTema.getInstance().getFactoryTemaAttuale();
+    private ArchivioLibri a;
+    public NuovoLibroDialog(Frame owner, ArchivioLibri archivioLibri) {
+        super(owner, "Nuovo libro", true);
+
+        a = archivioLibri;
+        setSize(520, 650);
+        setLocationRelativeTo(owner);
+        setLayout(new BorderLayout());
+        getContentPane().setBackground(tema.getColorePrimarioSfondo());
+
+        JLabel header = new JLabel("Aggiungi un nuovo libro");
+        header.setFont(tema.getFontTitolo());
+        header.setForeground(tema.getColoreTesto());
+        header.setHorizontalAlignment(SwingConstants.CENTER);
+        header.setBorder(BorderFactory.createEmptyBorder(20, 10, 10, 10));
+        add(header, BorderLayout.NORTH);
+
+        JPanel formPanel = new JPanel();
+        formPanel.setLayout(new BoxLayout(formPanel, BoxLayout.Y_AXIS));
+        formPanel.setBackground(tema.getColoreSecondarioSfondo());
+        formPanel.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
+
+        formPanel.add(creaFormField("Titolo", titoloField = tema.creaTextField()));
+        formPanel.add(Box.createVerticalStrut(15));
+        formPanel.add(creaFormField("ISBN", isbnField = tema.creaTextField()));
+        formPanel.add(Box.createVerticalStrut(15));
+        formPanel.add(creaSezioneAutori());
+        formPanel.add(Box.createVerticalStrut(25));
+        formPanel.add(createEnumSelectionPanel("Genere", generiList = new JList<>(GenereLibro.values())));
+        formPanel.add(Box.createVerticalStrut(25));
+        formPanel.add(createComboBoxPanel("Stato", statoLibroJComboBox =  new JComboBox<>(StatoLibro.values())));
+        formPanel.add(Box.createVerticalStrut(25));
+        formPanel.add(createComboBoxPanel("Valutazione", valutazioneCombo = new JComboBox<>(ValutazioneLibro.values())));
+
+        JScrollPane scrollPane = tema.creaScrollPane(formPanel);
+        add(scrollPane, BorderLayout.CENTER);
+
+        JButton salva = tema.creaBottonePrincipale("Salva");
+
+        salva.addActionListener(e -> {
+            String titolo = titoloField.getText().trim();
+            String isbn = isbnField.getText().trim();
+            Set<GenereLibro> generi = new HashSet<>(generiList.getSelectedValuesList());
+            StatoLibro statoLibro = (StatoLibro) statoLibroJComboBox.getSelectedItem();
+            ValutazioneLibro valutazione = (ValutazioneLibro) valutazioneCombo.getSelectedItem();
+
+            List<Autore> autori = new ArrayList<>();
+            for (JTextField[] fields : autoriFields) {
+                String nome = fields[0].getText().trim();
+                String cognome = fields[1].getText().trim();
+                if (!nome.isEmpty() && !cognome.isEmpty()) {
+                    autori.add(new Autore(nome, cognome));
+                }
+            }
+            Libro nuovoLibro = new Libro.LibroBuilder(autori,titolo,isbn)
+                    .generi(generi)
+                    .valutazione(valutazione)
+                    .stato(statoLibro)
+                    .build();
+            QueryArchivioIF queryAggiungiLibro = new QueryArchvioInserisci(a,nuovoLibro);
+            queryAggiungiLibro.esegui();
+
+            System.out.println("✔ Libro: " + nuovoLibro);
+            dispose();
+        });
+
+        JButton annulla = tema.creaBottoneElimina("Annulla");
+        annulla.addActionListener(e -> dispose());
+
+        JPanel bottom = new JPanel();
+        bottom.setBackground(tema.getColorePrimarioSfondo());
+        bottom.setLayout(new FlowLayout(FlowLayout.RIGHT, 15, 15));
+        bottom.add(annulla);
+        bottom.add(salva);
+
+        add(bottom, BorderLayout.SOUTH);
+    }
+
+    private JPanel creaFormField(String labelText, JTextField field) {
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.setBackground(tema.getColoreSecondarioSfondo());
+
+        JLabel label = new JLabel(labelText);
+        label.setForeground(tema.getColoreTesto());
+        label.setFont(tema.getFontPrimario().deriveFont(Font.BOLD));
+        label.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 0));
+        panel.add(label, BorderLayout.NORTH);
+
+        field.setPreferredSize(new Dimension(200, 30));
+        field.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
+        panel.add(field, BorderLayout.CENTER);
+        return panel;
+    }
+
+    private JPanel creaSezioneAutori() {
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setBackground(tema.getColoreSecondarioSfondo());
+
+        JLabel label = new JLabel("Autori");
+        label.setForeground(tema.getColoreTesto());
+        label.setFont(tema.getFontPrimario().deriveFont(Font.BOLD));
+        label.setAlignmentX(Component.LEFT_ALIGNMENT);
+        panel.add(label);
+        panel.add(Box.createVerticalStrut(8));
+
+        autoriPanel = new JPanel();
+        autoriPanel.setLayout(new BoxLayout(autoriPanel, BoxLayout.Y_AXIS));
+        autoriPanel.setBackground(tema.getColoreSecondarioSfondo());
+        panel.add(autoriPanel);
+
+        JButton aggiungi = tema.creaBottonePrincipale("+ Aggiungi autore");
+        aggiungi.setFont(tema.getFontPrimario());
+        aggiungi.setAlignmentX(Component.LEFT_ALIGNMENT);
+        aggiungi.addActionListener(e -> aggiungiCampiAutore());
+        panel.add(Box.createVerticalStrut(10));
+        panel.add(aggiungi);
+
+        aggiungiCampiAutore();
+
+        return panel;
+    }
+
+    private void aggiungiCampiAutore() {
+        JPanel row = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 5));
+        row.setBackground(tema.getColoreSecondarioSfondo());
+
+        JTextField nome = tema.creaTextField();
+        JTextField cognome = tema.creaTextField();
+
+
+        setupPlaceholder(nome, "Nome");
+        setupPlaceholder(cognome, "Cognome");
+
+        row.add(nome);
+        row.add(cognome);
+        autoriPanel.add(row);
+        autoriFields.add(new JTextField[]{nome, cognome});
+
+        autoriPanel.revalidate();
+        autoriPanel.repaint();
+    }
+
+    private JPanel createEnumSelectionPanel(String labelText, JList<?> list) {
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.setBackground(tema.getColoreSecondarioSfondo());
+
+        JLabel label = new JLabel(labelText);
+        label.setForeground(tema.getColoreTesto());
+        label.setFont(tema.getFontPrimario().deriveFont(Font.BOLD));
+        label.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 0));
+        panel.add(label, BorderLayout.NORTH);
+
+        list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        list.setBackground(tema.getColoreSecondarioSfondo().darker());
+        list.setForeground(tema.getColoreTesto());
+        list.setFont(tema.getFontPrimario());
+
+        JScrollPane scroll = new JScrollPane(list);
+        scroll.setVerticalScrollBar(tema.creaScrollBar());
+        scroll.getViewport().setBackground(tema.getColoreSecondarioSfondo());
+        scroll.setBackground(tema.getColoreSecondarioSfondo());
+        scroll.setPreferredSize(new Dimension(200, 80));
+        scroll.setBorder(BorderFactory.createLineBorder(tema.getColorePrimarioSfondo().brighter()));
+
+        panel.add(scroll, BorderLayout.CENTER);
+        return panel;
+    }
+
+    private JPanel createComboBoxPanel(String labelText, JComboBox<?> comboBox) {
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.setBackground(tema.getColoreSecondarioSfondo());
+
+        JLabel label = new JLabel(labelText);
+        label.setForeground(tema.getColoreTesto());
+        label.setFont(tema.getFontPrimario().deriveFont(Font.BOLD));
+        label.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 0));
+        panel.add(label, BorderLayout.NORTH);
+
+        comboBox.setBackground(tema.getColoreSecondarioSfondo().darker());
+        comboBox.setForeground(tema.getColoreTesto());
+        comboBox.setFont(tema.getFontPrimario());
+        comboBox.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+        panel.add(comboBox, BorderLayout.CENTER);
+
+        return panel;
+    }
+
+
+    //metodo per il comportamento del testo se cliccato (nome , cognome)
+    private void setupPlaceholder(JTextField field, String placeholder) {
+        field.setText(placeholder);
+        field.setForeground(Color.GRAY);
+
+        field.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (field.getText().equals(placeholder)) {
+                    field.setText("");
+                    field.setForeground(Color.WHITE);
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (field.getText().isEmpty()) {
+                    field.setText(placeholder);
+                    field.setForeground(Color.GRAY);
+                }
+            }
+        });
+    }
+
+
+
+
+}
