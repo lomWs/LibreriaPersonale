@@ -8,7 +8,7 @@ public class FiltroPerValutazione implements FiltroArchivio {
 
     private ValutazioneLibro valutazione;
 
-    FiltroPerValutazione(ValutazioneLibro v){
+    public FiltroPerValutazione(ValutazioneLibro v){
         this.valutazione = v;
     }
 
