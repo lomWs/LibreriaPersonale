@@ -23,22 +23,26 @@ public class FiltriDialog extends JDialog {
 
     private final TemaFactory tema;
     private final ArchivioLibri archivio;
-    private final JPanel filtriContainer;
-    private final JComboBox<String> campoOrdinamentoCombo;
-    private final JRadioButton ordineAsc;
-    private final JRadioButton ordineDesc;
-    private final JCheckBox attivaOrdinamento;
+    private  JPanel filtriContainer;
+    private  JComboBox<String> campoOrdinamentoCombo;
+    private  JRadioButton ordineAsc;
+    private  JRadioButton ordineDesc;
+    private  JCheckBox attivaOrdinamento;
 
-    public FiltriDialog(Frame owner, ArchivioLibri archivio) {
-        super(owner, "Filtri di ricerca", true);
+    public FiltriDialog(Frame frameProprietario, ArchivioLibri archivio) {
+        super(frameProprietario, "Filtri di ricerca", true);
         this.tema = GestoreTema.getInstance().getFactoryTemaAttuale();
         this.archivio = archivio;
 
         setSize(520, 600);
-        setLocationRelativeTo(owner);
+        setLocationRelativeTo(frameProprietario);
         setLayout(new BorderLayout());
         getContentPane().setBackground(tema.getColorePrimarioSfondo());
+        aggiungiComponentiGui();
 
+    }
+
+    private void aggiungiComponentiGui(){
         // Intestazione
         JLabel header = new JLabel("Applica filtri e ordinamento", SwingConstants.CENTER);
         header.setFont(tema.getFontTitolo());
@@ -117,7 +121,7 @@ public class FiltriDialog extends JDialog {
 
         JButton applica = tema.creaBottonePrincipale("Applica");
         applica.addActionListener(e -> {
-            // TODO: costruisci query da filtriContainer, applica e chiudi
+            // creo il filtro composto estraendo i singoli filtri inseriti dall'utente
             CompositeFiltroArchivio filtriComposti = estraiFiltriInseriti();
 
             if (attivaOrdinamento.isSelected()) {
@@ -146,6 +150,8 @@ public class FiltriDialog extends JDialog {
         footer.add(applica);
         add(footer, BorderLayout.SOUTH);
     }
+
+
 
     private void aggiungiFiltroPanel() {
         JPanel filtroRow = new JPanel();
@@ -221,6 +227,7 @@ public class FiltriDialog extends JDialog {
         combo.setPreferredSize(new Dimension(200, 40));
         combo.setMaximumSize(new Dimension(Integer.MAX_VALUE, 40));
     }
+
     private CompositeFiltroArchivio estraiFiltriInseriti() {
         CompositeFiltroArchivio filtroComposito = new CompositeFiltroArchivio("AND");
 
@@ -264,7 +271,7 @@ public class FiltriDialog extends JDialog {
                     case "Valutazione" -> filtroComposito = filtroComposito.aggiungi(new FiltroPerValutazione(ValutazioneLibro.valueOf(valore)));
                 }
             } catch (IllegalArgumentException ex) {
-                System.err.println("❌ Valore filtro non valido: " + valore + " per campo " + campoSelezionato);
+                System.err.println("Tipo di filtro non supportato");
             }
         }
 

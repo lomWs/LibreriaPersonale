@@ -75,9 +75,6 @@ public class GridBoxLibroPanel extends JPanel implements Observer {
         revalidate();
         repaint();
 
-
-
-
     }
 
 

@@ -20,19 +20,27 @@ public class BoxLibroDialog extends JDialog {
 
     private final TemaFactory tema;
     private final ArchivioLibri archivioLibri;
+    private final Libro libro;
 
-    public BoxLibroDialog(ArchivioLibri archiver ,Frame owner, Libro libro) {
-        super(owner, "Dettagli libro", true);
+    public BoxLibroDialog(ArchivioLibri archivioLibri ,Frame framePropietario, Libro libro) {
+        super(framePropietario, "Dettagli libro", true);
         this.tema = GestoreTema.getInstance().getFactoryTemaAttuale();
-        this.archivioLibri = archiver;
-
+        this.archivioLibri = archivioLibri;
+        this.libro = libro;
         setSize(500, 500);
-        setLocationRelativeTo(owner);
+        setLocationRelativeTo(framePropietario);
         getContentPane().setBackground(tema.getColorePrimarioSfondo());
         setLayout(new BorderLayout());
+        aggiungiComponentiGUI();
 
+
+    }
+
+
+
+    private void aggiungiComponentiGUI(){
         // Titolo principale
-        JLabel titoloLabel = new JLabel(libro.getTitolo());
+        JLabel titoloLabel = new JLabel(this.libro.getTitolo());
         titoloLabel.setFont(tema.getFontTitolo());
         titoloLabel.setForeground(tema.getColoreTesto());
         titoloLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -45,15 +53,15 @@ public class BoxLibroDialog extends JDialog {
         centro.setBackground(tema.getColoreSecondarioSfondo());
         centro.setBorder(BorderFactory.createEmptyBorder(20, 30, 20, 30));
 
-        centro.add(detail("Autori", formatAutori(libro.getAutori())));
-        centro.add(detail("ISBN", libro.getISBN()));
-        centro.add(detail("Stato", libro.getStato().toString()));
-        centro.add(detail("Generi", formatGeneri(libro.getGeneri())));
-        centro.add(detail("Valutazione", libro.getValutazione().toString()));
+        centro.add(detail("Autori", formatAutori(this.libro.getAutori())));
+        centro.add(detail("ISBN", this.libro.getISBN()));
+        centro.add(detail("Stato", this.libro.getStato().toString()));
+        centro.add(detail("Generi", formatGeneri(this.libro.getGeneri())));
+        centro.add(detail("Valutazione", this.libro.getValutazione().formatoDisplay()));
 
         add(centro, BorderLayout.CENTER);
 
-        // Pulsanti
+        // Bottone elimina, con query
         JButton elimina = tema.creaBottoneElimina("Elimina");
         elimina.addActionListener(e -> {
             int confirm = JOptionPane.showConfirmDialog(this,
@@ -61,22 +69,25 @@ public class BoxLibroDialog extends JDialog {
                     "Conferma eliminazione",
                     JOptionPane.YES_NO_OPTION);
             if (confirm == JOptionPane.YES_OPTION) {
-                // TODO: rimuovi il libro dal modello/dati esterni
-                QueryArchivioIF queryRimozione  = new QueryArchivioElimina(this.archivioLibri,libro.getISBN());
+
+                QueryArchivioIF queryRimozione  = new QueryArchivioElimina(this.archivioLibri,this.libro.getISBN());
                 queryRimozione.esegui();
                 dispose();
             }
         });
 
+        //Bottone chiusura Dialog
         JButton chiudi = tema.creaBottonePrincipale("Chiudi");
         chiudi.addActionListener(e -> dispose());
 
-        JPanel pulsanti = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 10));
-        pulsanti.setBackground(tema.getColorePrimarioSfondo());
-        pulsanti.add(elimina);
-        pulsanti.add(chiudi);
-        add(pulsanti, BorderLayout.SOUTH);
+        //aggregazione dei due bottoni in un panel per formattali meglio nella gui
+        JPanel pannelloPulsanti = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 10));
+        pannelloPulsanti.setBackground(tema.getColorePrimarioSfondo());
+        pannelloPulsanti.add(elimina);
+        pannelloPulsanti.add(chiudi);
+        add(pannelloPulsanti, BorderLayout.SOUTH);
     }
+
 
     private JPanel detail(String label, String value) {
         JPanel row = new JPanel(new BorderLayout());
@@ -96,12 +107,14 @@ public class BoxLibroDialog extends JDialog {
         return row;
     }
 
+    //in caso di lista di autori li mostro separati da virgola
     private String formatAutori(List<Autore> autori) {
         return autori.stream()
                 .map(a -> a.getNome() + " " + a.getCognome())
                 .collect(Collectors.joining(", "));
     }
 
+    //in caso di lista di generi li mostro separati da virgola
     private String formatGeneri(Set<GenereLibro> generi) {
         return generi.stream()
                 .map(Enum::name)
