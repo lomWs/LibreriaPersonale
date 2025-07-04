@@ -1,6 +1,7 @@
 package query;
 
 import archivio.ArchivioLibri;
+import model.Libro;
 
 import java.util.List;
 
@@ -11,7 +12,7 @@ public abstract class AbstractQueryArchivio implements QueryArchivioIF {
         this.archivio = a;
     }
 
-    public abstract List<?> esegui();
+    public abstract List<Libro> esegui();
 
 
 }
