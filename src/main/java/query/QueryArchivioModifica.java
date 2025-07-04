@@ -3,6 +3,8 @@ package query;
 import archivio.ArchivioLibri;
 import model.Libro;
 
+import java.util.List;
+
 public class QueryArchivioModifica extends AbstractQueryArchivio {
 
     private Libro l;
@@ -13,9 +15,10 @@ public class QueryArchivioModifica extends AbstractQueryArchivio {
     }
 
     @Override
-    public void esegui() {
+    public List<?> esegui() {
 
         this.archivio.modifica(this.l);
 
+        return null;
     }
 }

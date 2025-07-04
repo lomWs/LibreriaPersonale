@@ -1,14 +1,22 @@
 package query;
 
 import archivio.ArchivioLibri;
+import model.Libro;
 import query.filtro.FiltroArchivio;
 import query.ordinamento.OrdinamentoArchivio;
+
+import java.util.List;
 
 public class QueryArchivioCerca extends AbstractQueryArchivio {
 
     private FiltroArchivio f;
     private OrdinamentoArchivio o;
 
+    public QueryArchivioCerca(ArchivioLibri a){
+        super(a);
+        this.f=null;
+        this.o=null;
+    }
 
     public QueryArchivioCerca(ArchivioLibri a,FiltroArchivio f){
         super(a);
@@ -27,11 +35,13 @@ public class QueryArchivioCerca extends AbstractQueryArchivio {
     }
 
     @Override
-    public void esegui() {
-        //print momentanea da rimuovere
-        System.out.println(
-            archivio.cerca(this.f,this.o));
+    public List<?> esegui() {
 
+        List<Libro> ret =archivio.cerca(this.f,this.o);
+        //print momentanea da rimuovere
+        System.out.println(ret);
+
+        return ret;
     }
 
 }

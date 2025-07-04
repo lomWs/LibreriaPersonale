@@ -30,12 +30,13 @@ public class QueryArchivioElimina extends AbstractQueryArchivio{
 
 
     @Override
-    public void esegui() {
+    public List<?> esegui() {
         if(listaISBN == null)
             archivio.elimina(f);
         else{
             archivio.elimina(listaISBN);
 
         }
+        return null;
     }
 }
