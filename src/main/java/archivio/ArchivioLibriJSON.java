@@ -8,10 +8,7 @@ import observer.Observer;
 import query.filtro.FiltroArchivio;
 import query.ordinamento.OrdinamentoArchivio;
 
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
@@ -28,6 +25,7 @@ public class ArchivioLibriJSON implements ArchivioLibri{
 
      public  ArchivioLibriJSON(String percorsoFileDB){
         this.percorsoFileDB = percorsoFileDB;
+        this.controllaOCreaFileJson();
         this.fileJson = Path.of(percorsoFileDB);
         this.gson=new GsonBuilder()
                 .setPrettyPrinting()
@@ -37,6 +35,7 @@ public class ArchivioLibriJSON implements ArchivioLibri{
 
     public  ArchivioLibriJSON(String percorsoFileDB,Gson gson){
         this.percorsoFileDB = percorsoFileDB;
+        this.controllaOCreaFileJson();
         this.fileJson = Path.of(percorsoFileDB);
         this.gson=gson;
 
@@ -44,9 +43,10 @@ public class ArchivioLibriJSON implements ArchivioLibri{
 
 
     @Override
-    public void inserisci(Libro l) {
+    public void inserisci(Libro l) throws LibriPresentiException{
         List<Libro> libriGiaPresenti = cerca(null,null);
-
+        if(libriGiaPresenti.contains(l))
+            throw new LibriPresentiException("Il libro è già stato inserito");
         libriGiaPresenti.add(l);
         try(FileWriter fw = new FileWriter(fileJson.toFile());) {
             this.gson.toJson(libriGiaPresenti,fw);
@@ -59,9 +59,10 @@ public class ArchivioLibriJSON implements ArchivioLibri{
     }
 
     @Override
-    public void inserisci(List<Libro> libri) {
+    public void inserisci(List<Libro> libri) throws LibriPresentiException {
          List<Libro> libriGiaPresenti = cerca(null,null);
-
+        if(libri.stream().anyMatch(libriGiaPresenti::contains))
+            throw new LibriPresentiException("Almeno un libro è già stato inserito");
 
         libriGiaPresenti.addAll(libri);
         try(FileWriter fw = new FileWriter(fileJson.toFile());) {
@@ -75,8 +76,9 @@ public class ArchivioLibriJSON implements ArchivioLibri{
 
 
     @Override
-    public void elimina(FiltroArchivio f) {
+    public void elimina(FiltroArchivio f){
         Path temp = Path.of(fileJson.toString() + ".tmp");
+
 
         try (
                 JsonReader reader = new JsonReader(new FileReader(fileJson.toFile()));
@@ -161,4 +163,25 @@ public class ArchivioLibriJSON implements ArchivioLibri{
         }
 
     }
+
+
+    private  void controllaOCreaFileJson() {
+        File file = new File(percorsoFileDB);
+
+        if (!file.exists()) {
+            try {
+                file.createNewFile();
+                try (FileWriter writer = new FileWriter(file)) {
+                    writer.write("[]"); // JSON vuoto valido per una lista
+                }
+                System.out.println("🆕 File JSON creato: " + percorsoFileDB);
+            } catch (IOException e) {
+                e.printStackTrace();
+                System.err.println("❌ Errore nella creazione del file JSON.");
+            }
+        } else {
+            System.out.println("📁 File JSON esistente trovato.");
+        }
+    }
+
 }
