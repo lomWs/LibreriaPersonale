@@ -89,6 +89,12 @@ public final class Libro {
         return ISBN;
     }
 
+    public void setStato(StatoLibro s){
+        this.stato=s;
+    }
+    public void setValutazione(ValutazioneLibro v){
+        this.valutazione=v;
+    }
 
 
     @Override
