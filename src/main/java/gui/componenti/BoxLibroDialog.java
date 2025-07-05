@@ -3,11 +3,10 @@ package gui.componenti;
 import archivio.ArchivioLibri;
 import gui.temi.GestoreTema;
 import gui.temi.TemaFactory;
-import model.Autore;
-import model.GenereLibro;
-import model.Libro;
+import model.*;
 import query.QueryArchivioElimina;
 import query.QueryArchivioIF;
+import query.QueryArchivioModifica;
 
 import javax.swing.*;
 
@@ -48,19 +47,64 @@ public class BoxLibroDialog extends JDialog {
         add(titoloLabel, BorderLayout.NORTH);
 
         // Pannello centrale con dettagli
-        JPanel centro = new JPanel();
-        centro.setLayout(new BoxLayout(centro, BoxLayout.Y_AXIS));
-        centro.setBackground(tema.getColoreSecondarioSfondo());
-        centro.setBorder(BorderFactory.createEmptyBorder(20, 30, 20, 30));
+        JPanel panelInfoLibro = new JPanel();
+        panelInfoLibro.setLayout(new BoxLayout(panelInfoLibro, BoxLayout.Y_AXIS));
+        panelInfoLibro.setBackground(tema.getColoreSecondarioSfondo());
+        panelInfoLibro.setBorder(BorderFactory.createEmptyBorder(20, 30, 20, 30));
 
-        centro.add(detail("Autori", formatAutori(this.libro.getAutori())));
-        centro.add(detail("ISBN", this.libro.getISBN()));
-        centro.add(detail("Stato", this.libro.getStato().toString()));
-        centro.add(detail("Generi", formatGeneri(this.libro.getGeneri())));
-        centro.add(detail("Valutazione", this.libro.getValutazione().formatoDisplay()));
+        panelInfoLibro.add(detail("Autori", formatAutori(this.libro.getAutori())));
+        panelInfoLibro.add(detail("ISBN", this.libro.getISBN()));
+        panelInfoLibro.add(detail("Stato", this.libro.getStato().toString()));
+        panelInfoLibro.add(detail("Generi", formatGeneri(this.libro.getGeneri())));
+        panelInfoLibro.add(detail("Valutazione", this.libro.getValutazione().formatoDisplay()));
 
-        add(centro, BorderLayout.CENTER);
+        add(panelInfoLibro, BorderLayout.CENTER);
+        // Sezione modifica stato e valutazione
+        JCheckBox modificaBox = new JCheckBox("Modifica stato/valutazione");
+        modificaBox.setFont(tema.getFontPrimario());
+        modificaBox.setBackground(tema.getColoreSecondarioSfondo());
+        modificaBox.setForeground(tema.getColoreTesto());
 
+        JPanel modificaPanel = new JPanel();
+        modificaPanel.setLayout(new BoxLayout(modificaPanel, BoxLayout.Y_AXIS));
+        modificaPanel.setBackground(tema.getColoreSecondarioSfondo());
+        modificaPanel.setVisible(false); // nascosto inizialmente
+
+        JComboBox<StatoLibro> statoCombo = new JComboBox<>(StatoLibro.values());
+        statoCombo.setSelectedItem(libro.getStato());
+        statoCombo.setFont(tema.getFontPrimario());
+        statoCombo.setBackground(tema.getColoreSecondarioSfondo().darker());
+        statoCombo.setForeground(tema.getColoreTesto());
+
+        JComboBox<ValutazioneLibro> valutazioneCombo = new JComboBox<>(ValutazioneLibro.values());
+        valutazioneCombo.setSelectedItem(libro.getValutazione());
+        valutazioneCombo.setFont(tema.getFontPrimario());
+        valutazioneCombo.setBackground(tema.getColoreSecondarioSfondo().darker());
+        valutazioneCombo.setForeground(tema.getColoreTesto());
+
+        JButton salvaModifiche = tema.creaBottonePrincipale("Salva modifiche");
+        salvaModifiche.addActionListener(e -> {
+            libro.setStato((StatoLibro) statoCombo.getSelectedItem());
+            libro.setValutazione((ValutazioneLibro) valutazioneCombo.getSelectedItem());
+            QueryArchivioIF queryAggiorna = new QueryArchivioModifica(archivioLibri, libro);
+            queryAggiorna.esegui();
+            JOptionPane.showMessageDialog(this, "Libro aggiornato con successo.");
+            dispose();
+        });
+        JScrollPane scrollPane = tema.creaScrollPane(panelInfoLibro);
+        add(scrollPane, BorderLayout.CENTER);
+
+        modificaPanel.add(creaComboBoxPanel("Nuovo stato", statoCombo));
+        modificaPanel.add(Box.createVerticalStrut(10));
+        modificaPanel.add(creaComboBoxPanel("Nuova valutazione", valutazioneCombo));
+        modificaPanel.add(Box.createVerticalStrut(10));
+        modificaPanel.add(salvaModifiche);
+
+        modificaBox.addActionListener(e -> modificaPanel.setVisible(modificaBox.isSelected()));
+
+        panelInfoLibro.add(Box.createVerticalStrut(20));
+        panelInfoLibro.add(modificaBox);
+        panelInfoLibro.add(modificaPanel);
         // Bottone elimina, con query
         JButton elimina = tema.creaBottoneElimina("Elimina");
         elimina.addActionListener(e -> {
@@ -120,6 +164,28 @@ public class BoxLibroDialog extends JDialog {
                 .map(Enum::name)
                 .collect(Collectors.joining(", "));
     }
+
+
+
+    private JPanel creaComboBoxPanel(String labelText, JComboBox<?> comboBox) {
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.setBackground(tema.getColoreSecondarioSfondo());
+        JLabel label = new JLabel(labelText);
+        label.setForeground(tema.getColoreTesto());
+        label.setFont(tema.getFontPrimario().deriveFont(Font.BOLD));
+        label.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 0));
+        panel.add(label, BorderLayout.NORTH);
+
+        comboBox.setBackground(tema.getColoreSecondarioSfondo().darker());
+        comboBox.setForeground(tema.getColoreTesto());
+        comboBox.setFont(tema.getFontPrimario());
+        comboBox.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+        panel.add(comboBox, BorderLayout.CENTER);
+
+        return panel;
+    }
+
+
 }
 
 
