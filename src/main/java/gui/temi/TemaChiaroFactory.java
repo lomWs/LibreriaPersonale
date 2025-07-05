@@ -76,8 +76,18 @@ public class TemaChiaroFactory implements TemaFactory {
     }
 
     @Override
-    public JComboBox<?> creaComboBox() {
-        JComboBox<?> comboBox = new JComboBox<>();
+    public <T> JList<T> creaList(T[] elementi) {
+        JList<T> list =new JList<>(elementi);
+        list.setBackground(getColoreSecondarioSfondo().darker());
+        list.setForeground(getColoreTesto());
+        list.setFont(getFontPrimario());
+
+        return list;
+    }
+
+    @Override
+    public <T> JComboBox<T> creaComboBox(T[] elementi) {
+        JComboBox<T> comboBox = new JComboBox<>(elementi);
 
         comboBox.setUI(new BasicComboBoxUI() {
             @Override

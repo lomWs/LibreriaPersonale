@@ -77,30 +77,41 @@ public class TemaScuroFactory implements TemaFactory {
     }
 
     @Override
-    public JComboBox<?> creaComboBox() {
-        JComboBox<?> comboBox = new JComboBox<>();
+    public <T> JList<T> creaList(T[] elementi) {
+        JList<T> list =new JList<>(elementi);
+        list.setBackground(getColoreSecondarioSfondo().darker());
+        list.setForeground(getColoreTesto());
+        list.setFont(getFontPrimario());
+
+        return list;
+    }
+
+    @Override
+    public <T> JComboBox<T> creaComboBox(T[] elementi) {
+        JComboBox<T> comboBox = new JComboBox<>(elementi);
 
         //inserisco la scroll bar del tema anche all'interno del comboBox
-        comboBox.setUI(new BasicComboBoxUI() {
-           @Override
-           protected ComboPopup createPopup() {
-               BasicComboPopup popup = new BasicComboPopup(comboBox) {
-                   @Override
-                   protected JScrollPane createScroller() {
-                       JScrollPane scroll = super.createScroller();
-                       scroll.setVerticalScrollBar(GestoreTema.getInstance().getFactoryTemaAttuale().creaScrollBar());
-                       scroll.getViewport().setBackground(GestoreTema.getInstance().getFactoryTemaAttuale().getColoreSecondarioSfondo());
-                       return scroll;
-                   }
-               };
-               return popup;
-           }
-        });
+//        comboBox.setUI(new BasicComboBoxUI() {
+//           @Override
+//           protected ComboPopup createPopup() {
+//               BasicComboPopup popup = new BasicComboPopup(comboBox) {
+//                   @Override
+//                   protected JScrollPane createScroller() {
+//                       JScrollPane scroll = super.createScroller();
+//                       scroll.setVerticalScrollBar(GestoreTema.getInstance().getFactoryTemaAttuale().creaScrollBar());
+//                       scroll.getViewport().setBackground(GestoreTema.getInstance().getFactoryTemaAttuale().getColoreSecondarioSfondo());
+//                       return scroll;
+//                   }
+//               };
+//               return popup;
+//           }
+//        });
 
-
+        comboBox.setFont(getFontPrimario());
+        comboBox.setBackground(getColoreSecondarioSfondo().darker());
+        comboBox.setForeground(getColoreTesto());
         comboBox.setFont(fontBase);
-        comboBox.setBackground(new Color(50, 50, 50));
-        comboBox.setForeground(coloreTesto);
+
         return comboBox;
     }
 
