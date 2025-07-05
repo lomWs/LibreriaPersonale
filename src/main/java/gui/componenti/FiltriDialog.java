@@ -8,7 +8,6 @@ import model.Libro;
 import model.StatoLibro;
 import model.ValutazioneLibro;
 import query.QueryArchivioCerca;
-import query.QueryArchivioIF;
 import query.filtro.*;
 import query.ordinamento.OrdinamentoArchivio;
 import query.ordinamento.OrdinamentoPerAttributo;
@@ -80,10 +79,9 @@ public class FiltriDialog extends JDialog {
         attivaOrdinamento.setForeground(tema.getColoreTesto());
         attivaOrdinamento.setFont(tema.getFontPrimario());
 
-        campoOrdinamentoCombo = new JComboBox<>(new String[]{"Titolo", "Valutazione"});
-        campoOrdinamentoCombo.setFont(tema.getFontPrimario());
-        campoOrdinamentoCombo.setBackground(tema.getColoreSecondarioSfondo());
-        campoOrdinamentoCombo.setForeground(tema.getColoreTesto());
+
+        JComboBox<String>campoOrdinamentoCombo = tema.creaComboBox(new String[]{"Titolo", "Valutazione"});
+
 
         ordineCrescente = new JRadioButton("Crescente");
         ordineDecrescente = new JRadioButton("Decrescente");
@@ -124,6 +122,7 @@ public class FiltriDialog extends JDialog {
             if (attivaOrdinamento.isSelected()) {
                 String campo = (String) campoOrdinamentoCombo.getSelectedItem();
                 boolean ascendente = ordineCrescente.isSelected();
+                assert campo != null;
                 OrdinamentoArchivio ordinamento = campo.equals("Titolo") ?
                         new OrdinamentoPerAttributo<>(Libro::getTitolo, ascendente) :
                         new OrdinamentoPerAttributo<>(Libro::getValutazione, ascendente);
@@ -157,13 +156,17 @@ public class FiltriDialog extends JDialog {
         valoreInputWrapper.setBackground(tema.getColoreSecondarioSfondo());
 
         JTextField valoreTextField = tema.creaTextField();
-        JComboBox<String> genereCombo = new JComboBox<>(Arrays.stream(GenereLibro.values()).map(Enum::name).toArray(String[]::new));
-        JComboBox<String> statoCombo = new JComboBox<>(Arrays.stream(StatoLibro.values()).map(Enum::name).toArray(String[]::new));
-        JComboBox<String> valutazioneCombo = new JComboBox<>(Arrays.stream(ValutazioneLibro.values()).map(Enum::name).toArray(String[]::new));
 
-        configuraCombo(genereCombo);
-        configuraCombo(statoCombo);
-        configuraCombo(valutazioneCombo);
+        JComboBox<GenereLibro> genereCombo = tema.creaComboBox(GenereLibro.values());
+        JComboBox<StatoLibro> statoCombo =tema.creaComboBox(StatoLibro.values());
+
+        //serve perche il filtro viene creato in base al nome e non in base alle stelle della valutazione
+        JComboBox<String> valutazioneCombo =tema.creaComboBox(Arrays
+                .stream(ValutazioneLibro.values())
+                .map(Enum::name)
+                .toArray(String[]::new));
+
+
 
         valoreInputWrapper.add(valoreTextField, "testo");
         valoreInputWrapper.add(genereCombo, "genere");
@@ -183,12 +186,7 @@ public class FiltriDialog extends JDialog {
             }
         });
 
-        JButton rimuovi = new JButton("Rimuovi");
-        rimuovi.setFont(tema.getFontPrimario());
-        rimuovi.setBackground(Color.RED.darker());
-        rimuovi.setForeground(Color.WHITE);
-        rimuovi.setPreferredSize(new Dimension(40, 40));
-        rimuovi.setFocusPainted(false);
+        JButton rimuovi = tema.creaBottoneElimina("Rimuovi");
         rimuovi.addActionListener(e -> {
             filtriContainer.remove(filtroRow);
             filtriContainer.revalidate();
@@ -208,13 +206,6 @@ public class FiltriDialog extends JDialog {
         filtriContainer.repaint();
     }
 
-    private void configuraCombo(JComboBox<String> combo) {
-        combo.setFont(tema.getFontPrimario());
-        combo.setBackground(tema.getColoreSecondarioSfondo().darker());
-        combo.setForeground(tema.getColoreTesto());
-        combo.setPreferredSize(new Dimension(200, 40));
-        combo.setMaximumSize(new Dimension(Integer.MAX_VALUE, 40));
-    }
 
     private CompositeFiltroArchivio estraiFiltriInseriti() {
         CompositeFiltroArchivio filtroComposito = new CompositeFiltroArchivio("AND");
@@ -257,9 +248,11 @@ public class FiltriDialog extends JDialog {
                     case "Genere" -> filtroComposito = filtroComposito.aggiungi(new FiltroPerGenere(GenereLibro.valueOf(valore)));
                     case "Stato" -> filtroComposito = filtroComposito.aggiungi(new FiltroPerStato(StatoLibro.valueOf(valore)));
                     case "Valutazione" -> filtroComposito = filtroComposito.aggiungi(new FiltroPerValutazione(ValutazioneLibro.valueOf(valore)));
+                    case null -> {}
+                    default -> throw new IllegalStateException("Valore non corretto " + campoSelezionato);
                 }
             } catch (IllegalArgumentException ex) {
-                System.err.println("Tipo di filtro non supportato");
+                System.err.println("Tipo di filtro non supportato "+ valore);
             }
         }
 

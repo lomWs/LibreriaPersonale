@@ -42,7 +42,6 @@ public class QueryBarPanel extends JPanel {
 
 
 
-
         add(filtriButton);
         add(aggiungiButton);
     }

@@ -63,11 +63,11 @@ public class NuovoLibroDialog extends JDialog {
         formPanel.add(Box.createVerticalStrut(15));
         formPanel.add(creaSezioneAutori());
         formPanel.add(Box.createVerticalStrut(25));
-        formPanel.add(createEnumSelectionPanel("Genere", generiList = new JList<>(GenereLibro.values())));
+        formPanel.add(creaPannelloEnumerazione("Genere", generiList = tema.creaList(GenereLibro.values())));
         formPanel.add(Box.createVerticalStrut(25));
-        formPanel.add(creaComboBoxPanel("Stato", statoLibroJComboBox =  new JComboBox<>(StatoLibro.values())));
+        formPanel.add(creaComboBoxPanel("Stato", statoLibroJComboBox =  tema.creaComboBox(StatoLibro.values())));
         formPanel.add(Box.createVerticalStrut(25));
-        formPanel.add(creaComboBoxPanel("Valutazione", valutazioneCombo = new JComboBox<>(ValutazioneLibro.values())));
+        formPanel.add(creaComboBoxPanel("Valutazione", valutazioneCombo = tema.creaComboBox(ValutazioneLibro.values())));
 
         JScrollPane scrollPane = tema.creaScrollPane(formPanel);
         add(scrollPane, BorderLayout.CENTER);
@@ -136,8 +136,8 @@ public class NuovoLibroDialog extends JDialog {
         label.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 0));
         panel.add(label, BorderLayout.NORTH);
 
-        field.setPreferredSize(new Dimension(200, 30));
-        field.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
+//        field.setPreferredSize(new Dimension(200, 30));
+//        field.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
         panel.add(field, BorderLayout.CENTER);
         return panel;
     }
@@ -191,7 +191,7 @@ public class NuovoLibroDialog extends JDialog {
         autoriPanel.repaint();
     }
 
-    private JPanel createEnumSelectionPanel(String labelText, JList<?> list) {
+    private JPanel creaPannelloEnumerazione(String labelText, JList<?> list) {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBackground(tema.getColoreSecondarioSfondo());
 
@@ -202,16 +202,9 @@ public class NuovoLibroDialog extends JDialog {
         panel.add(label, BorderLayout.NORTH);
 
         list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-        list.setBackground(tema.getColoreSecondarioSfondo().darker());
-        list.setForeground(tema.getColoreTesto());
-        list.setFont(tema.getFontPrimario());
 
-        JScrollPane scroll = new JScrollPane(list);
-        scroll.setVerticalScrollBar(tema.creaScrollBar());
-        scroll.getViewport().setBackground(tema.getColoreSecondarioSfondo());
-        scroll.setBackground(tema.getColoreSecondarioSfondo());
-        scroll.setPreferredSize(new Dimension(200, 80));
-        scroll.setBorder(BorderFactory.createLineBorder(tema.getColorePrimarioSfondo().brighter()));
+
+        JScrollPane scroll = tema.creaScrollPane(list);
 
         panel.add(scroll, BorderLayout.CENTER);
         return panel;
@@ -226,10 +219,6 @@ public class NuovoLibroDialog extends JDialog {
         label.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 0));
         panel.add(label, BorderLayout.NORTH);
 
-        comboBox.setBackground(tema.getColoreSecondarioSfondo().darker());
-        comboBox.setForeground(tema.getColoreTesto());
-        comboBox.setFont(tema.getFontPrimario());
-        comboBox.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
         panel.add(comboBox, BorderLayout.CENTER);
 
         return panel;
