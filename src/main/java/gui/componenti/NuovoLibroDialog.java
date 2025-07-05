@@ -85,7 +85,8 @@ public class NuovoLibroDialog extends JDialog {
             for (JTextField[] fields : autoriFields) {
                 String nome = fields[0].getText().trim();
                 String cognome = fields[1].getText().trim();
-                if (!nome.isEmpty() && !cognome.isEmpty()) {
+                if (!nome.isEmpty() && !cognome.isEmpty()
+                && !nome.equals("Nome") && !cognome.equals("Cognome")) {
                     autori.add(new Autore(nome, cognome));
                 }
             }

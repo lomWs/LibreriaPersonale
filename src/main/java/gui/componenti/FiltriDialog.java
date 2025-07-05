@@ -15,9 +15,7 @@ import query.ordinamento.OrdinamentoPerAttributo;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class FiltriDialog extends JDialog {
 
@@ -25,12 +23,12 @@ public class FiltriDialog extends JDialog {
     private final ArchivioLibri archivio;
     private  JPanel filtriContainer;
     private  JComboBox<String> campoOrdinamentoCombo;
-    private  JRadioButton ordineAsc;
-    private  JRadioButton ordineDesc;
+    private  JRadioButton ordineCrescente;
+    private  JRadioButton ordineDecrescente;
     private  JCheckBox attivaOrdinamento;
 
     public FiltriDialog(Frame frameProprietario, ArchivioLibri archivio) {
-        super(frameProprietario, "Filtri di ricerca", true);
+        super(frameProprietario, "Filtri ricerca", true);
         this.tema = GestoreTema.getInstance().getFactoryTemaAttuale();
         this.archivio = archivio;
 
@@ -87,13 +85,13 @@ public class FiltriDialog extends JDialog {
         campoOrdinamentoCombo.setBackground(tema.getColoreSecondarioSfondo());
         campoOrdinamentoCombo.setForeground(tema.getColoreTesto());
 
-        ordineAsc = new JRadioButton("Ascendente");
-        ordineDesc = new JRadioButton("Discendente");
+        ordineCrescente = new JRadioButton("Crescente");
+        ordineDecrescente = new JRadioButton("Decrescente");
         ButtonGroup group = new ButtonGroup();
-        group.add(ordineAsc);
-        group.add(ordineDesc);
+        group.add(ordineCrescente);
+        group.add(ordineDecrescente);
 
-        for (JRadioButton b : new JRadioButton[]{ordineAsc, ordineDesc}) {
+        for (JRadioButton b : new JRadioButton[]{ordineCrescente, ordineDecrescente}) {
             b.setBackground(tema.getColoreSecondarioSfondo());
             b.setForeground(tema.getColoreTesto());
             b.setFont(tema.getFontPrimario());
@@ -102,8 +100,8 @@ public class FiltriDialog extends JDialog {
         ordinamentoPanel.add(attivaOrdinamento);
         ordinamentoPanel.add(Box.createVerticalStrut(10));
         ordinamentoPanel.add(campoOrdinamentoCombo);
-        ordinamentoPanel.add(ordineAsc);
-        ordinamentoPanel.add(ordineDesc);
+        ordinamentoPanel.add(ordineCrescente);
+        ordinamentoPanel.add(ordineDecrescente);
 
         // Centro = scroll filtri + ordinamento
         JPanel centro = new JPanel(new BorderLayout());
@@ -121,28 +119,18 @@ public class FiltriDialog extends JDialog {
 
         JButton applica = tema.creaBottonePrincipale("Applica");
         applica.addActionListener(e -> {
-            // creo il filtro composto estraendo i singoli filtri inseriti dall'utente
             CompositeFiltroArchivio filtriComposti = estraiFiltriInseriti();
 
             if (attivaOrdinamento.isSelected()) {
                 String campo = (String) campoOrdinamentoCombo.getSelectedItem();
-                boolean ascendente = ordineAsc.isSelected();
-                OrdinamentoArchivio ordinamento = switch (campo) {
-                    case "Titolo" -> new OrdinamentoPerAttributo<>(Libro::getTitolo, ascendente);
-                    case "Valutazione" -> new OrdinamentoPerAttributo<>(Libro::getValutazione, ascendente);
-                    // aggiungi altri campi se ne supporti altri
-                    default -> null;
-                };
-
-                QueryArchivioIF query = new QueryArchivioCerca(this.archivio,filtriComposti,ordinamento);
-                query.esegui();
+                boolean ascendente = ordineCrescente.isSelected();
+                OrdinamentoArchivio ordinamento = campo.equals("Titolo") ?
+                        new OrdinamentoPerAttributo<>(Libro::getTitolo, ascendente) :
+                        new OrdinamentoPerAttributo<>(Libro::getValutazione, ascendente);
+                new QueryArchivioCerca(archivio, filtriComposti, ordinamento).esegui();
+            } else {
+                new QueryArchivioCerca(archivio, filtriComposti).esegui();
             }
-            else{
-                QueryArchivioIF query = new QueryArchivioCerca(this.archivio,filtriComposti);
-                query.esegui();
-            }
-
-
             dispose();
         });
 
