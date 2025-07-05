@@ -8,7 +8,8 @@ import java.util.List;
 public class QueryArchivioModifica extends AbstractQueryArchivio {
 
     private Libro l;
-    QueryArchivioModifica(ArchivioLibri a, Libro libroModificato){
+
+    public QueryArchivioModifica(ArchivioLibri a, Libro libroModificato){
         super(a);
         this.l = libroModificato;
 
