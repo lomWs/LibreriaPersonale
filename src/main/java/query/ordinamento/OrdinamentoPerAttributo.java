@@ -20,8 +20,8 @@ public class OrdinamentoPerAttributo<T extends Comparable<T>> implements Ordinam
     public int compare(Libro a, Libro b) {
         T valA = this.estrattore.apply(a);
         T valB = this.estrattore.apply(b);
-        int result = valA.compareTo(valB);
-        return this.crescente ? result : -result;
+        int risultato = valA.compareTo(valB);
+        return this.crescente ? risultato : -risultato;
     }
 
 

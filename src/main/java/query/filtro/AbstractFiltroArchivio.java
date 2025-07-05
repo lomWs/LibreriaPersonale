@@ -4,12 +4,12 @@ import model.Libro;
 
 import java.util.Objects;
 
-public abstract class AbstractFiltroArchivio implements FiltroArchivio {
+public abstract class AbstractFiltroArchivio<T> implements FiltroArchivio {
 
-    private String nomeFiltro;
+    protected final T parametroFiltro;
 
-    AbstractFiltroArchivio(String nomeFiltro){
-        this.nomeFiltro = nomeFiltro;
+    AbstractFiltroArchivio(T parametroFiltro){
+        this.parametroFiltro = parametroFiltro;
     }
 
 
@@ -21,13 +21,13 @@ public abstract class AbstractFiltroArchivio implements FiltroArchivio {
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        AbstractFiltroArchivio that = (AbstractFiltroArchivio) o;
-        return Objects.equals(nomeFiltro, that.nomeFiltro);
+        AbstractFiltroArchivio<T> that = (AbstractFiltroArchivio<T>) o;
+        return Objects.equals(parametroFiltro, that.parametroFiltro);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(nomeFiltro);
+        return Objects.hashCode(parametroFiltro);
     }
 
     @Override

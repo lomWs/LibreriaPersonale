@@ -3,16 +3,16 @@ package query.filtro;
 import model.GenereLibro;
 import model.Libro;
 
-public class FiltroPerGenere implements FiltroArchivio {
-    private GenereLibro genere;
+public class FiltroPerGenere extends AbstractFiltroArchivio<GenereLibro> {
+    //private GenereLibro genere;
 
     public FiltroPerGenere(GenereLibro g){
-        this.genere=g;
+        super(g);
     }
 
 
     @Override
     public boolean filtra(Libro l) {
-        return l.getGeneri().stream().anyMatch(g -> g.equals(genere));
+        return l.getGeneri().stream().anyMatch(g -> g.equals(this.parametroFiltro));
     }
 }

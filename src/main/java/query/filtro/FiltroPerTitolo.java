@@ -4,18 +4,18 @@ import model.Libro;
 
 import java.util.Arrays;
 
-public class FiltroPerTitolo implements FiltroArchivio{
+public class FiltroPerTitolo extends AbstractFiltroArchivio<String>{
 
-    private String titolo;
+    //private String titolo;
 
-    public FiltroPerTitolo(String titolo){this.titolo =titolo;}
+    public FiltroPerTitolo(String titolo){super(titolo);}
 
     @Override
     public boolean filtra(Libro l) {
-        if(this.titolo.equalsIgnoreCase(l.getTitolo()))
+        if(this.parametroFiltro.equalsIgnoreCase(l.getTitolo()))
             return  true;
 
-        String[] sottoStringheTitolo = this.titolo.split(" ");
+        String[] sottoStringheTitolo = this.parametroFiltro.split(" ");
 
         return Arrays.stream(sottoStringheTitolo).anyMatch(l.getTitolo()::contains);
     }

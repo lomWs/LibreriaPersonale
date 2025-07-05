@@ -5,19 +5,19 @@ import model.Libro;
 
 import java.util.Arrays;
 
-public class FiltroPerAutore implements FiltroArchivio{
+public class FiltroPerAutore extends AbstractFiltroArchivio<String>{
 
-    private String autore;
+    //private final String autore;
 
     public FiltroPerAutore(String autore){
-        super();
-        this.autore = autore;
+        super(autore);
+        //this.autore = autore;
     }
 
 
     @Override
     public boolean filtra(Libro l) {
-        String[] sottoStringheAutore = this.autore.toLowerCase().split(" ");
+        String[] sottoStringheAutore = super.parametroFiltro.toLowerCase().split(" ");
         for(Autore a : l.getAutori()){
 
             for (int i=0;i<sottoStringheAutore.length;i++){

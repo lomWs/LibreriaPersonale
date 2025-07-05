@@ -7,7 +7,7 @@ import java.util.*;
 public class CompositeFiltroArchivio implements FiltroArchivio {
 
     private List<FiltroArchivio> figli = new ArrayList<>();
-    private String operazione; // AND or OR
+    private String operazione; // AND o OR
 
     public CompositeFiltroArchivio(List<FiltroArchivio> figli,String operazione){
         this.operazione=operazione;
