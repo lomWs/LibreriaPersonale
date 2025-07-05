@@ -70,17 +70,22 @@ public class BoxLibroDialog extends JDialog {
         modificaPanel.setBackground(tema.getColoreSecondarioSfondo());
         modificaPanel.setVisible(false); // nascosto inizialmente
 
-        JComboBox<StatoLibro> statoCombo = new JComboBox<>(StatoLibro.values());
-        statoCombo.setSelectedItem(libro.getStato());
-        statoCombo.setFont(tema.getFontPrimario());
-        statoCombo.setBackground(tema.getColoreSecondarioSfondo().darker());
-        statoCombo.setForeground(tema.getColoreTesto());
+//        JComboBox<StatoLibro> statoCombo = new JComboBox<>(StatoLibro.values());
+//        statoCombo.setSelectedItem(libro.getStato());
+//        statoCombo.setFont(tema.getFontPrimario());
+//        statoCombo.setBackground(tema.getColoreSecondarioSfondo().darker());
+//        statoCombo.setForeground(tema.getColoreTesto());
+          JComboBox<StatoLibro> statoCombo = tema.creaComboBox(StatoLibro.values());
+          statoCombo.setSelectedItem(libro.getStato());
 
-        JComboBox<ValutazioneLibro> valutazioneCombo = new JComboBox<>(ValutazioneLibro.values());
+//        JComboBox<ValutazioneLibro> valutazioneCombo = new JComboBox<>(ValutazioneLibro.values());
+//        valutazioneCombo.setSelectedItem(libro.getValutazione());
+//        valutazioneCombo.setFont(tema.getFontPrimario());
+//        valutazioneCombo.setBackground(tema.getColoreSecondarioSfondo().darker());
+//        valutazioneCombo.setForeground(tema.getColoreTesto());
+
+        JComboBox<ValutazioneLibro> valutazioneCombo = tema.creaComboBox(ValutazioneLibro.values());
         valutazioneCombo.setSelectedItem(libro.getValutazione());
-        valutazioneCombo.setFont(tema.getFontPrimario());
-        valutazioneCombo.setBackground(tema.getColoreSecondarioSfondo().darker());
-        valutazioneCombo.setForeground(tema.getColoreTesto());
 
         JButton salvaModifiche = tema.creaBottonePrincipale("Salva modifiche");
         salvaModifiche.addActionListener(e -> {
