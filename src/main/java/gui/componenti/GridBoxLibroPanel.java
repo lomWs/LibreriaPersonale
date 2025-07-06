@@ -1,13 +1,10 @@
 package gui.componenti;
 
-import archivio.ArchivioLibri;
+import controller.ControllerLibro;
 import gui.temi.GestoreTema;
 import gui.temi.TemaFactory;
 import model.Libro;
 import observer.Observer;
-import observer.Subject;
-import query.QueryArchivioCerca;
-import query.QueryArchivioIF;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,16 +14,18 @@ import java.util.List;
 
 
 public class GridBoxLibroPanel extends JPanel implements Observer {
-    private final  ArchivioLibri archivioLibri;
+
+    private final ControllerLibro controller;
     private final TemaFactory tema = GestoreTema.getInstance().getFactoryTemaAttuale();
-    public GridBoxLibroPanel(ArchivioLibri archivioLibri, List<Libro> libri) {
-        this.archivioLibri = archivioLibri;
+
+    public GridBoxLibroPanel(ControllerLibro controller, List<Libro> libri) {
+        this.controller = controller;
         setLayout(new GridLayout(0, 4, 20, 20));
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         setBackground(tema.getColorePrimarioSfondo());
         setOpaque(true);
 
-        archivioLibri.aggiungiObserver(this);
+        controller.getArchivioLibri().aggiungiObserver(this);
 
 
         for (int i = 0; i < libri.size(); i++) {
@@ -42,7 +41,7 @@ public class GridBoxLibroPanel extends JPanel implements Observer {
             @Override
             public void mouseClicked(MouseEvent e) {
                 Frame parent = (Frame) SwingUtilities.getWindowAncestor(box);
-                new BoxLibroDialog(GridBoxLibroPanel.this.archivioLibri,parent, libro).setVisible(true);
+                new BoxLibroDialog(GridBoxLibroPanel.this.controller,parent, libro).setVisible(true);
             }
 
             @Override
@@ -64,8 +63,8 @@ public class GridBoxLibroPanel extends JPanel implements Observer {
     public void aggiorna(List<Libro> libri) {
 
         if(libri == null){
-            QueryArchivioIF q = new QueryArchivioCerca(archivioLibri);
-             libri = (List<Libro>) q.esegui();
+
+            libri = controller.cerca();
 
         }
         removeAll();

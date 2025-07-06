@@ -1,10 +1,8 @@
 package gui.componenti;
 
-import archivio.ArchivioLibri;
+import controller.ControllerLibro;
 import gui.temi.GestoreTema;
 import gui.temi.TemaFactory;
-import query.QueryArchivioCerca;
-import query.QueryArchivioIF;
 import query.filtro.*;
 
 import javax.swing.*;
@@ -15,11 +13,11 @@ import java.awt.*;
 public class QueryBarPanel extends JPanel {
 
     private final TemaFactory tema;
-    private final ArchivioLibri archivioLibri;
+    private final ControllerLibro controller;
 
-    public QueryBarPanel(ArchivioLibri archivioLibri) {
+    public QueryBarPanel(ControllerLibro controller) {
         this.tema = GestoreTema.getInstance().getFactoryTemaAttuale();
-        this.archivioLibri = archivioLibri;
+        this.controller = controller;
 
         setLayout(new FlowLayout(FlowLayout.LEFT, 20, 10));
         setPreferredSize(new Dimension(1000, 70));
@@ -48,12 +46,12 @@ public class QueryBarPanel extends JPanel {
 
     private void mostraDialogNuovoLibro() {
         Frame parent = (Frame) SwingUtilities.getWindowAncestor(this);
-        new NuovoLibroDialog(parent,archivioLibri).setVisible(true);
+        new NuovoLibroDialog(parent,controller).setVisible(true);
     }
 
     private void mostraDialogFiltri() {
         Frame parent = (Frame) SwingUtilities.getWindowAncestor(this);
-        new FiltriDialog(parent, archivioLibri).setVisible(true);
+        new FiltriDialog(parent, controller).setVisible(true);
     }
 
     private void eseguiRicerca(String testo) {
@@ -63,11 +61,9 @@ public class QueryBarPanel extends JPanel {
             CompositeFiltroArchivio filtroComposto = new CompositeFiltroArchivio("OR");
             filtroComposto=filtroComposto.aggiungi(new FiltroPerAutore(testo));
             filtroComposto=filtroComposto.aggiungi(new FiltroPerTitolo(testo));
-            QueryArchivioIF queryRicerca = new QueryArchivioCerca(this.archivioLibri, filtroComposto);
-            queryRicerca.esegui();
+            controller.cerca(filtroComposto);
         }else{
-            QueryArchivioIF queryRicerca = new QueryArchivioCerca(this.archivioLibri);
-            queryRicerca.esegui();
+            controller.cerca();
         }
     }
 }

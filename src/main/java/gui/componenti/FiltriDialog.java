@@ -1,13 +1,12 @@
 package gui.componenti;
 
-import archivio.ArchivioLibri;
+import controller.ControllerLibro;
 import gui.temi.GestoreTema;
 import gui.temi.TemaFactory;
 import model.GenereLibro;
 import model.Libro;
 import model.StatoLibro;
 import model.ValutazioneLibro;
-import query.QueryArchivioCerca;
 import query.filtro.*;
 import query.ordinamento.OrdinamentoArchivio;
 import query.ordinamento.OrdinamentoPerAttributo;
@@ -19,17 +18,17 @@ import java.util.Arrays;
 public class FiltriDialog extends JDialog {
 
     private final TemaFactory tema;
-    private final ArchivioLibri archivio;
+    private final ControllerLibro controller;
     private  JPanel filtriContainer;
     private  JComboBox<String> campoOrdinamentoCombo;
     private  JRadioButton ordineCrescente;
     private  JRadioButton ordineDecrescente;
     private  JCheckBox attivaOrdinamento;
 
-    public FiltriDialog(Frame frameProprietario, ArchivioLibri archivio) {
+    public FiltriDialog(Frame frameProprietario, ControllerLibro controller) {
         super(frameProprietario, "Filtri ricerca", true);
         this.tema = GestoreTema.getInstance().getFactoryTemaAttuale();
-        this.archivio = archivio;
+        this.controller = controller;
 
         setSize(520, 600);
         setLocationRelativeTo(frameProprietario);
@@ -126,9 +125,12 @@ public class FiltriDialog extends JDialog {
                 OrdinamentoArchivio ordinamento = campo.equals("Titolo") ?
                         new OrdinamentoPerAttributo<>(Libro::getTitolo, ascendente) :
                         new OrdinamentoPerAttributo<>(Libro::getValutazione, ascendente);
-                new QueryArchivioCerca(archivio, filtriComposti, ordinamento).esegui();
+
+                controller.cerca(filtriComposti,ordinamento);
+
             } else {
-                new QueryArchivioCerca(archivio, filtriComposti).esegui();
+                controller.cerca(filtriComposti);
+
             }
             dispose();
         });

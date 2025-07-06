@@ -1,13 +1,10 @@
 package gui.componenti;
 
-import archivio.ArchivioLibri;
+import controller.ControllerLibro;
 import gui.GestoreCopertina;
 import gui.temi.GestoreTema;
 import gui.temi.TemaFactory;
 import model.*;
-import query.QueryArchivioElimina;
-import query.QueryArchivioIF;
-import query.QueryArchivioModifica;
 
 import javax.swing.*;
 
@@ -19,13 +16,13 @@ import java.util.stream.Collectors;
 public class BoxLibroDialog extends JDialog {
 
     private final TemaFactory tema;
-    private final ArchivioLibri archivioLibri;
+    private final ControllerLibro controller;
     private final Libro libro;
 
-    public BoxLibroDialog(ArchivioLibri archivioLibri ,Frame framePropietario, Libro libro) {
+    public BoxLibroDialog(ControllerLibro controller ,Frame framePropietario, Libro libro) {
         super(framePropietario, "Dettagli libro", true);
         this.tema = GestoreTema.getInstance().getFactoryTemaAttuale();
-        this.archivioLibri = archivioLibri;
+        this.controller = controller;
         this.libro = libro;
         setSize(500, 500);
         setLocationRelativeTo(framePropietario);
@@ -83,8 +80,9 @@ public class BoxLibroDialog extends JDialog {
         salvaModifiche.addActionListener(e -> {
             libro.setStato((StatoLibro) statoCombo.getSelectedItem());
             libro.setValutazione((ValutazioneLibro) valutazioneCombo.getSelectedItem());
-            QueryArchivioIF queryAggiorna = new QueryArchivioModifica(archivioLibri, libro);
-            queryAggiorna.esegui();
+
+            controller.modifica(libro);
+
             JOptionPane.showMessageDialog(this, "Libro aggiornato con successo.");
             dispose();
         });
@@ -112,8 +110,8 @@ public class BoxLibroDialog extends JDialog {
                     JOptionPane.YES_NO_OPTION);
             if (confirm == JOptionPane.YES_OPTION) {
 
-                QueryArchivioIF queryRimozione  = new QueryArchivioElimina(this.archivioLibri,this.libro.getISBN());
-                queryRimozione.esegui();
+
+                controller.elimina(this.libro.getISBN());
                 GestoreCopertina.eliminaCopertina(this.libro.getPercorsoCopertina());
                 dispose();
             }

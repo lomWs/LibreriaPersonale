@@ -1,12 +1,10 @@
 package gui.componenti;
 
-import archivio.ArchivioLibri;
+import controller.ControllerLibro;
 import gui.GestoreCopertina;
 import gui.temi.GestoreTema;
 import gui.temi.TemaFactory;
 import model.*;
-import query.QueryArchivioIF;
-import query.QueryArchvioInserisci;
 
 import javax.swing.*;
 import java.awt.*;
@@ -31,13 +29,13 @@ public class NuovoLibroDialog extends JDialog {
     private  JPanel autoriPanel;
     private final List<JTextField[]> autoriFields = new ArrayList<>();
     private final TemaFactory tema = GestoreTema.getInstance().getFactoryTemaAttuale();
-    private final ArchivioLibri archivioLibri;
+    private final ControllerLibro controller;
 
 
-    public NuovoLibroDialog(Frame framePropietario, ArchivioLibri archivioLibri) {
+    public NuovoLibroDialog(Frame framePropietario, ControllerLibro controller) {
         super(framePropietario, "Nuovo libro", true);
 
-        this.archivioLibri = archivioLibri;
+        this.controller = controller;
         setSize(520, 650);
         setLocationRelativeTo(framePropietario);
         setLayout(new BorderLayout());
@@ -102,9 +100,10 @@ public class NuovoLibroDialog extends JDialog {
                     .build();
             nuovoLibro.setPercorsoCopertina(this.percorsoCopertina);
             System.out.println(this.percorsoCopertina);
-            QueryArchivioIF queryAggiungiLibro = new QueryArchvioInserisci(archivioLibri,nuovoLibro);
+
+
             try {
-                queryAggiungiLibro.esegui();
+                controller.aggiungi(nuovoLibro);
             } catch (RuntimeException ex) {
                 JOptionPane.showMessageDialog(this,
                         "Errore: ISBN già presente o libro duplicato.",
