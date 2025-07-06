@@ -172,15 +172,13 @@ public class ArchivioLibriJSON implements ArchivioLibri{
             try {
                 file.createNewFile();
                 try (FileWriter writer = new FileWriter(file)) {
-                    writer.write("[]"); // JSON vuoto valido per una lista
+                    writer.write("[]");
                 }
-                System.out.println("🆕 File JSON creato: " + percorsoFileDB);
+
             } catch (IOException e) {
                 e.printStackTrace();
-                System.err.println("❌ Errore nella creazione del file JSON.");
+
             }
-        } else {
-            System.out.println("📁 File JSON esistente trovato.");
         }
     }
 
