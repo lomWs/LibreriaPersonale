@@ -1,6 +1,7 @@
 package gui.componenti;
 
 import archivio.ArchivioLibri;
+import gui.GestoreCopertina;
 import gui.temi.GestoreTema;
 import gui.temi.TemaFactory;
 import model.*;
@@ -70,19 +71,10 @@ public class BoxLibroDialog extends JDialog {
         modificaPanel.setBackground(tema.getColoreSecondarioSfondo());
         modificaPanel.setVisible(false); // nascosto inizialmente
 
-//        JComboBox<StatoLibro> statoCombo = new JComboBox<>(StatoLibro.values());
-//        statoCombo.setSelectedItem(libro.getStato());
-//        statoCombo.setFont(tema.getFontPrimario());
-//        statoCombo.setBackground(tema.getColoreSecondarioSfondo().darker());
-//        statoCombo.setForeground(tema.getColoreTesto());
+
           JComboBox<StatoLibro> statoCombo = tema.creaComboBox(StatoLibro.values());
           statoCombo.setSelectedItem(libro.getStato());
 
-//        JComboBox<ValutazioneLibro> valutazioneCombo = new JComboBox<>(ValutazioneLibro.values());
-//        valutazioneCombo.setSelectedItem(libro.getValutazione());
-//        valutazioneCombo.setFont(tema.getFontPrimario());
-//        valutazioneCombo.setBackground(tema.getColoreSecondarioSfondo().darker());
-//        valutazioneCombo.setForeground(tema.getColoreTesto());
 
         JComboBox<ValutazioneLibro> valutazioneCombo = tema.creaComboBox(ValutazioneLibro.values());
         valutazioneCombo.setSelectedItem(libro.getValutazione());
@@ -110,6 +102,7 @@ public class BoxLibroDialog extends JDialog {
         panelInfoLibro.add(Box.createVerticalStrut(20));
         panelInfoLibro.add(modificaBox);
         panelInfoLibro.add(modificaPanel);
+
         // Bottone elimina, con query
         JButton elimina = tema.creaBottoneElimina("Elimina");
         elimina.addActionListener(e -> {
@@ -121,6 +114,7 @@ public class BoxLibroDialog extends JDialog {
 
                 QueryArchivioIF queryRimozione  = new QueryArchivioElimina(this.archivioLibri,this.libro.getISBN());
                 queryRimozione.esegui();
+                GestoreCopertina.eliminaCopertina(this.libro.getPercorsoCopertina());
                 dispose();
             }
         });
@@ -181,10 +175,6 @@ public class BoxLibroDialog extends JDialog {
         label.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 0));
         panel.add(label, BorderLayout.NORTH);
 
-        comboBox.setBackground(tema.getColoreSecondarioSfondo().darker());
-        comboBox.setForeground(tema.getColoreTesto());
-        comboBox.setFont(tema.getFontPrimario());
-        comboBox.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
         panel.add(comboBox, BorderLayout.CENTER);
 
         return panel;

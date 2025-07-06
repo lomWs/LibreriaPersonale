@@ -9,6 +9,7 @@ public final class Libro {
     private StatoLibro stato; //stato di lettura, non letto, letto ed iniziato
     private Set<GenereLibro> generi;
     private ValutazioneLibro valutazione;
+    private String percorsoCopertina;
 
 
 
@@ -66,27 +67,31 @@ public final class Libro {
     }
 
     public String getTitolo() {
-        return titolo;
+        return this.titolo;
     }
 
     public List<Autore> getAutori() {
-        return autori;
+        return this.autori;
     }
 
     public Set<GenereLibro> getGeneri() {
-        return generi;
+        return this.generi;
     }
 
     public ValutazioneLibro getValutazione() {
-        return valutazione;
+        return this.valutazione;
     }
 
     public StatoLibro getStato() {
-        return stato;
+        return this.stato;
     }
 
     public String getISBN() {
-        return ISBN;
+        return this.ISBN;
+    }
+
+    public String getPercorsoCopertina() {
+        return this.percorsoCopertina;
     }
 
     public void setStato(StatoLibro s){
@@ -96,17 +101,20 @@ public final class Libro {
         this.valutazione=v;
     }
 
+    public void setPercorsoCopertina(String percorsoCopertina) {
+        this.percorsoCopertina = percorsoCopertina;
+    }
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Libro libro = (Libro) o;
-        return Objects.equals(ISBN, libro.ISBN);
+        return Objects.equals(this.ISBN, libro.ISBN);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(ISBN);
+        return Objects.hashCode(this.ISBN);
     }
 
     @Override

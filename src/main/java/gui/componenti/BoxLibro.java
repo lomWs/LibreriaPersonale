@@ -1,6 +1,6 @@
 package gui.componenti;
 
-import gui.ResourceLoader;
+import gui.GestoreCopertina;
 import gui.temi.GestoreTema;
 import gui.temi.TemaFactory;
 import model.ValutazioneLibro;
@@ -32,7 +32,7 @@ public class BoxLibro extends JPanel {
 
     private void aggiungiComponentiGUI(){
         // Copertina
-        ImageIcon icon = ResourceLoader.loadIcon(this.imagePath, 160, 180);
+        ImageIcon icon = GestoreCopertina.loadIcon(this.imagePath, 160, 180);
         JLabel cover = new JLabel(icon);
         cover.setHorizontalAlignment(SwingConstants.CENTER);
         cover.setVerticalAlignment(SwingConstants.CENTER);

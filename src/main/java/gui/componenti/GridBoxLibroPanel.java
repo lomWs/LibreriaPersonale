@@ -35,7 +35,7 @@ public class GridBoxLibroPanel extends JPanel implements Observer {
     }
 
     private JPanel creaBox(Libro libro) {
-        JPanel box = new BoxLibro(libro.getTitolo(),libro.getValutazione(),"percorso immagine");
+        JPanel box = new BoxLibro(libro.getTitolo(),libro.getValutazione(),libro.getPercorsoCopertina());
 
 
         box.addMouseListener(new MouseAdapter() {

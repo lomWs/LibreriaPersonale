@@ -1,6 +1,7 @@
 package gui.componenti;
 
 import archivio.ArchivioLibri;
+import gui.GestoreCopertina;
 import gui.temi.GestoreTema;
 import gui.temi.TemaFactory;
 import model.*;
@@ -12,12 +13,15 @@ import java.awt.*;
 
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 public class NuovoLibroDialog extends JDialog {
+
+    private String percorsoCopertina =" ";
 
     private  JTextField titoloField;
     private  JTextField isbnField;
@@ -81,6 +85,7 @@ public class NuovoLibroDialog extends JDialog {
             StatoLibro statoLibro = (StatoLibro) statoLibroJComboBox.getSelectedItem();
             ValutazioneLibro valutazione = (ValutazioneLibro) valutazioneCombo.getSelectedItem();
 
+
             List<Autore> autori = new ArrayList<>();
             for (JTextField[] fields : autoriFields) {
                 String nome = fields[0].getText().trim();
@@ -95,6 +100,8 @@ public class NuovoLibroDialog extends JDialog {
                     .valutazione(valutazione)
                     .stato(statoLibro)
                     .build();
+            nuovoLibro.setPercorsoCopertina(this.percorsoCopertina);
+            System.out.println(this.percorsoCopertina);
             QueryArchivioIF queryAggiungiLibro = new QueryArchvioInserisci(archivioLibri,nuovoLibro);
             try {
                 queryAggiungiLibro.esegui();
@@ -105,18 +112,41 @@ public class NuovoLibroDialog extends JDialog {
                         JOptionPane.ERROR_MESSAGE);
             }
 
-            System.out.println(" Libro: " + nuovoLibro);
+           // System.out.println(" Libro: " + nuovoLibro);
             dispose();
         });
 
         JButton annulla = tema.creaBottoneElimina("Annulla");
         annulla.addActionListener(e -> dispose());
 
+        JButton bottoneCaricaCopertina = tema.creaBottonePrincipale("Carica copertina");
+
+        bottoneCaricaCopertina.addActionListener(e -> {
+            // Crea un JFileChooser per la selezione del file immagine
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogTitle("Seleziona una copertina per il libro");
+
+            // Apre la finestra di dialogo per scegliere un file
+            int result = fileChooser.showOpenDialog(this);
+            if (result == JFileChooser.APPROVE_OPTION) {
+                // Se l'utente ha selezionato un file
+                File selectedFile = fileChooser.getSelectedFile();
+
+                this.percorsoCopertina = GestoreCopertina.salvataggioCopertina(selectedFile);
+
+
+
+
+            }
+        });
+
+
         JPanel bottom = new JPanel();
         bottom.setBackground(tema.getColorePrimarioSfondo());
         bottom.setLayout(new FlowLayout(FlowLayout.RIGHT, 15, 15));
         bottom.add(annulla);
         bottom.add(salva);
+        bottom.add(bottoneCaricaCopertina);
 
         add(bottom, BorderLayout.SOUTH);
 
@@ -248,6 +278,7 @@ public class NuovoLibroDialog extends JDialog {
             }
         });
     }
+
 
 
 
