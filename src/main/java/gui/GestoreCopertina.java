@@ -13,6 +13,8 @@ public class GestoreCopertina {
 
 
     public static ImageIcon loadIcon(String imagePath, int width, int height) {
+        if(imagePath.equals(" "))
+            return null;
         try {
             // Carica l'immagine dal percorso
             Image image = ImageIO.read(new File(imagePath));
@@ -76,16 +78,19 @@ public class GestoreCopertina {
     }
 
     public static void eliminaCopertina(String percorsoCopertina){
-        Path path = Paths.get(percorsoCopertina);
+       if(!percorsoCopertina.equals(" ")) {
+           Path path = Paths.get(percorsoCopertina);
 
-        try {
-            Files.delete(path); // Elimina il file
-            System.out.println("File eliminato con successo.");
-        } catch (NoSuchFileException e) {
-            System.err.println("Il file non esiste: " + percorsoCopertina);
-        } catch (IOException e) {
-            System.err.println("Errore durante l'eliminazione del file: " + e.getMessage());
-        }
+           try {
+               Files.delete(path); // Elimina il file
+               System.out.println("File eliminato con successo.");
+           } catch (NoSuchFileException e) {
+               System.err.println("Il file non esiste: " + percorsoCopertina);
+           } catch (IOException e) {
+               System.err.println("Errore durante l'eliminazione del file: " + e.getMessage());
+           }
+       }
+
 
     }
 
