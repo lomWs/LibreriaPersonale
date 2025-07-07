@@ -14,7 +14,7 @@ import java.util.List;
 public class MainFrame extends JFrame {
 
     private final TemaFactory tema;
-    private  GridBoxLibroPanel contentPanel;
+    private  GridBoxLibroPanel gridBoxLibroPanel;
     private  QueryBarPanel queryBar;
     private final ControllerLibro controller;
 
@@ -39,14 +39,15 @@ public class MainFrame extends JFrame {
         getContentPane().setBackground(tema.getColorePrimarioSfondo());
 
         // GridContentPanel è observer: si iscrive e verrà notificato da archivio
-        this.contentPanel = new GridBoxLibroPanel(this.controller, (List<Libro>) controller.cerca());
-        //archivio.aggiungiObserver(contentPanel); // registrazione observer
+        this.gridBoxLibroPanel = new GridBoxLibroPanel(this.controller, (List<Libro>) controller.cerca());
+
+        controller.getArchivioLibri().aggiungiObserver(this.gridBoxLibroPanel);
 
         // QueryBarPanel ha accesso all’archivio per eseguire query
         this.queryBar = new QueryBarPanel(this.controller);
 
         // ScrollPane tematizzato
-        JScrollPane scrollPane = tema.creaScrollPane(contentPanel);
+        JScrollPane scrollPane = tema.creaScrollPane(gridBoxLibroPanel);
 
         // Aggiunta dei componenti
         add(queryBar, BorderLayout.NORTH);

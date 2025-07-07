@@ -25,8 +25,6 @@ public class GridBoxLibroPanel extends JPanel implements Observer {
         setBackground(tema.getColorePrimarioSfondo());
         setOpaque(true);
 
-        controller.getArchivioLibri().aggiungiObserver(this);
-
 
         for (int i = 0; i < libri.size(); i++) {
             add(creaBox(libri.get(i)));
