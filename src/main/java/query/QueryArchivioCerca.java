@@ -37,11 +37,7 @@ public class QueryArchivioCerca extends AbstractQueryArchivio {
     @Override
     public List<Libro> esegui() {
 
-        List<Libro> ret =archivio.cerca(this.f,this.o);
-        //print momentanea da rimuovere
-        System.out.println(ret);
-
-        return ret;
+        return archivio.cerca(this.f, this.o);
     }
 
 }

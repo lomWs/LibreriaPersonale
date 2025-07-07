@@ -99,7 +99,8 @@ public class NuovoLibroDialog extends JDialog {
                     .stato(statoLibro)
                     .build();
             nuovoLibro.setPercorsoCopertina(this.percorsoCopertina);
-            System.out.println(this.percorsoCopertina);
+
+
 
 
             try {
@@ -111,7 +112,7 @@ public class NuovoLibroDialog extends JDialog {
                         JOptionPane.ERROR_MESSAGE);
             }
 
-           // System.out.println(" Libro: " + nuovoLibro);
+
             dispose();
         });
 
