@@ -16,6 +16,17 @@ import java.awt.*;
 import java.util.Arrays;
 
 public class FiltriDialog extends JDialog {
+    /**
+     *  La classe FiltriDialog viene istanziata a seguito di un evento, l'evento in questone è il click sul bottone filtri
+     *  contenuto nella QueryBarPanel.
+     *  FiltriDialog si occupa della gestione aggiunta/rimozione di filtri e ordinamento con la successiva applicazione
+     *  di essi tramite l'oggetto controller
+     *
+     * @See TemaFactory
+     * @See Controller
+     * @See JPanel
+     * @See QueryBarPanel
+     * */
 
     private final TemaFactory tema;
     private final ControllerLibro controller;
@@ -39,14 +50,14 @@ public class FiltriDialog extends JDialog {
     }
 
     private void aggiungiComponentiGui(){
-        // Intestazione
+
         JLabel header = new JLabel("Applica filtri e ordinamento", SwingConstants.CENTER);
         header.setFont(tema.getFontTitolo());
         header.setForeground(tema.getColoreTesto());
         header.setBorder(BorderFactory.createEmptyBorder(20, 10, 10, 10));
         add(header, BorderLayout.NORTH);
 
-        // Pannello centrale scrollabile con filtri
+        // pannello con scroll per l'aggiunta/rimozione di filtri
         filtriContainer = new JPanel();
         filtriContainer.setLayout(new BoxLayout(filtriContainer, BoxLayout.Y_AXIS));
         filtriContainer.setBackground(tema.getColoreSecondarioSfondo());
@@ -54,11 +65,11 @@ public class FiltriDialog extends JDialog {
 
         JScrollPane scrollPane = tema.creaScrollPane(filtriContainer);
 
-        JButton aggiungiFiltro = tema.creaBottonePrincipale("+ Aggiungi filtro");
+        JButton aggiungiFiltro = tema.creaBottonePrincipale("Aggiungi filtro");
         aggiungiFiltro.setAlignmentX(Component.LEFT_ALIGNMENT);
         aggiungiFiltro.addActionListener(e -> aggiungiFiltroPanel());
 
-        // Spazio e bottone sotto i filtri
+
         JPanel aggiungiPanel = new JPanel();
         aggiungiPanel.setBackground(tema.getColoreSecondarioSfondo());
         aggiungiPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -67,7 +78,7 @@ public class FiltriDialog extends JDialog {
         filtriContainer.add(Box.createVerticalStrut(10));
         filtriContainer.add(aggiungiPanel);
 
-        // Ordinamento
+        // pannello per l'oridnamento
         JPanel ordinamentoPanel = new JPanel();
         ordinamentoPanel.setLayout(new BoxLayout(ordinamentoPanel, BoxLayout.Y_AXIS));
         ordinamentoPanel.setBackground(tema.getColoreSecondarioSfondo());
@@ -100,7 +111,7 @@ public class FiltriDialog extends JDialog {
         ordinamentoPanel.add(ordineCrescente);
         ordinamentoPanel.add(ordineDecrescente);
 
-        // Centro = scroll filtri + ordinamento
+        // scroll filtri + ordinamento
         JPanel centro = new JPanel(new BorderLayout());
         centro.setBackground(tema.getColoreSecondarioSfondo());
         centro.add(scrollPane, BorderLayout.CENTER);
@@ -140,7 +151,9 @@ public class FiltriDialog extends JDialog {
         add(footer, BorderLayout.SOUTH);
     }
 
-
+    /**
+     * La funzione utiliy aggiungiFiltroPanel permette di aggiungere  al pannello grafico i filtri
+     * */
 
     private void aggiungiFiltroPanel() {
         JPanel filtroRow = new JPanel();
@@ -184,6 +197,7 @@ public class FiltriDialog extends JDialog {
                 case "Genere" -> layout.show(valoreInputWrapper, "genere");
                 case "Stato" -> layout.show(valoreInputWrapper, "stato");
                 case "Valutazione" -> layout.show(valoreInputWrapper, "valutazione");
+                case null -> {}
                 default -> layout.show(valoreInputWrapper, "testo");
             }
         });
@@ -201,7 +215,7 @@ public class FiltriDialog extends JDialog {
         filtroRow.add(Box.createHorizontalStrut(10));
         filtroRow.add(rimuovi);
 
-        // Inserisce prima del pannello dei pulsanti
+        // inserimento  prima del pannello rispetot ai pulsanti
         filtriContainer.add(filtroRow, filtriContainer.getComponentCount() - 1);
         filtriContainer.add(Box.createVerticalStrut(10), filtriContainer.getComponentCount() - 1);
         filtriContainer.revalidate();
@@ -209,15 +223,22 @@ public class FiltriDialog extends JDialog {
     }
 
 
+    /**
+     * La funzione utiliy estraiFiltriInseriti permette di estrarre dal pannello grafico i filtri inseriti dall'utente
+     * e trasformali nell'oggetto filtroComposito che permette il corretto svolgimento del comando sul backand
+     * */
+
     private CompositeFiltroArchivio estraiFiltriInseriti() {
         CompositeFiltroArchivio filtroComposito = new CompositeFiltroArchivio("AND");
 
         for (Component comp : filtriContainer.getComponents()) {
+
+            // non devo considerare le righe che non rappresentano filtri
             if (!(comp instanceof JPanel filtroRow)) continue;
 
             Component[] children = filtroRow.getComponents();
 
-            // Ignora righe che non hanno almeno: JComboBox campo, spazio, valoreWrapper, spazio, bottone rimuovi
+            // non devo considerare le righe che non rappresentano filtri
             if (children.length < 3 || !(children[0] instanceof JComboBox<?> campoFiltro)) continue;
 
             JPanel valoreInputWrapper = (JPanel) children[2];

@@ -9,6 +9,17 @@ import javax.swing.*;
 import java.awt.*;
 
 public class BoxLibro extends JPanel {
+    /**
+     *  La classe BoxLibro è la rappresentazione all'interno della GUI di un libro contenuto nell'archivio. Il legame
+     *  è puramente logico infatti il costruttore usa solo  @param strettamente necessari che devono essere
+     *  visualizzati nel box
+     *
+     * @See TemaFactory
+     * @See JPanel
+     * @See GestoreCopertina
+     * */
+
+
 
     private final TemaFactory tema;
     private final String titolo;
@@ -31,26 +42,26 @@ public class BoxLibro extends JPanel {
     }
 
     private void aggiungiComponentiGUI(){
-        // Copertina
+        // copertina libro
         ImageIcon icon = GestoreCopertina.loadIcon(this.imagePath, 160, 180);
         JLabel cover = new JLabel(icon);
         cover.setHorizontalAlignment(SwingConstants.CENTER);
         cover.setVerticalAlignment(SwingConstants.CENTER);
         add(cover, BorderLayout.CENTER);
 
-        // Informazioni sotto l'immagine
+        // pannello informativo sotto la copertina
         JPanel infoPanel = new JPanel();
         infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
         infoPanel.setBackground(tema.getColoreSecondarioSfondo());
 
-        // Titolo
+
+        // restanti componenti del boxLibro
         JLabel label = new JLabel(this.titolo, SwingConstants.CENTER);
         label.setForeground(tema.getColoreTesto());
         label.setFont(tema.getFontPrimario());
         label.setAlignmentX(Component.CENTER_ALIGNMENT);
         infoPanel.add(label);
 
-        // Valutazione in giallo
         JLabel valutazioneLabel = new JLabel(this.valutazione.formatoDisplay());
         valutazioneLabel.setForeground(Color.YELLOW);
         valutazioneLabel.setFont(tema.getFontPrimario());

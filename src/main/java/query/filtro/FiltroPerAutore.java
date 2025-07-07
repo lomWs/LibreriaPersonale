@@ -7,11 +7,10 @@ import java.util.Arrays;
 
 public class FiltroPerAutore extends AbstractFiltroArchivio<String>{
 
-    //private final String autore;
 
     public FiltroPerAutore(String autore){
         super(autore);
-        //this.autore = autore;
+
     }
 
 

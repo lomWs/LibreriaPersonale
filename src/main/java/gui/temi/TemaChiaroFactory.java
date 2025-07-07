@@ -9,6 +9,18 @@ import javax.swing.plaf.basic.ComboPopup;
 import java.awt.*;
 
 public class TemaChiaroFactory implements TemaFactory {
+
+
+    /**
+     * Implementazione chiara TemaFactory che definisce come venogono creati i componenti base della GUI
+     * con i colori consistenti al tema concreto.
+     *
+     * @See TemaFactory
+     * */
+
+
+
+
     private final Color colorePrincipaleSfondo = new Color(245, 245, 245);      // sfondo finestre
     private final Color coloreSecodarioSfondo = new Color(255, 255, 255);// sfondo pannelli
     private final Color coloreTerziarioSfondo = new Color(200,200,200);

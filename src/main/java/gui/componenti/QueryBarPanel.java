@@ -12,6 +12,16 @@ import java.awt.*;
 
 public class QueryBarPanel extends JPanel {
 
+    /**
+     *  La classe QueryBarPanel è la barra che permette la ricerca, l'aggiunta/rimozione di filtri ed ordinamenti per i
+     *  libri
+     *
+     * @See TemaFactory
+     * @See Controller
+     * @See JPanel
+     * */
+
+
     private final TemaFactory tema;
     private final ControllerLibro controller;
 
@@ -55,8 +65,7 @@ public class QueryBarPanel extends JPanel {
     }
 
     private void eseguiRicerca(String testo) {
-        // Potresti usare una QueryArchivioTestuale(archivioLibri, testo) da eseguire
-        // Se il GridContentPanel osserva l'archivio, verrà aggiornato automaticamente
+
         if(!testo.isEmpty()) {
             CompositeFiltroArchivio filtroComposto = new CompositeFiltroArchivio("OR");
             filtroComposto=filtroComposto.aggiungi(new FiltroPerAutore(testo));

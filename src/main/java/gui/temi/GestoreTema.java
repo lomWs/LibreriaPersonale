@@ -1,6 +1,16 @@
 package gui.temi;
 
 public final class GestoreTema {
+
+    /**
+     * GestoreTema si occupa anche grazie al pattern Singleton di fornire a tutti i componenti l'attuale tema
+     * utilizzato
+     *
+     * @See TemaFactory
+     * */
+
+
+
     private static TemaFactory temaFactoryDefault;
     private static GestoreTema istanza = null;
 

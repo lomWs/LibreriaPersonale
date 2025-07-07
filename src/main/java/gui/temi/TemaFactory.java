@@ -5,6 +5,11 @@ import java.awt.*;
 
 public interface TemaFactory {
 
+    /**
+     * Interfaccia TemaFactory che definisce la creazione dei temi comuni a tutta la GUI. Sfrutta il design pattern
+     * Abstract Factory per la creazione degli oggetti personalizzati e uniformi in tutta la GUI
+     * */
+
 
     JButton creaBottonePrincipale(String text);
     JButton creaBottoneElimina(String text);

@@ -8,7 +8,20 @@ import query.ordinamento.OrdinamentoArchivio;
 
 import java.util.List;
 
+
 public class ControllerLibro {
+
+    /**
+     * La classe ControllerLibro permette l'utilizzo e l'esecuzione di Query piu o meno complesse senza dover mantenere
+     * riferimenti all' ArchivioLibri. Essa è utilizzata come layer di separazione agiguntivo tra il backend ed il
+     * fronteend
+     *
+     * @See ArchivioLibri
+     * @See QueryArchivioIF
+     */
+
+
+
 
     private final ArchivioLibri archivioLibri;
 

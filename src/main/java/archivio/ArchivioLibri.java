@@ -10,6 +10,13 @@ import query.ordinamento.OrdinamentoArchivio;
 import java.util.List;
 
 public interface ArchivioLibri extends Subject {
+    /**
+    * ArchivioLibri è l'interfaccia che viene proposta come layer di più
+    * basso livello per la gestione di un Archivio per salvare oggetti
+    * di tipo Libro.
+    * @See Subject
+    *
+    * */
 
 
     public void inserisci(Libro l) throws LibriPresentiException;

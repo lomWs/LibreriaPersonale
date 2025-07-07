@@ -17,7 +17,19 @@ import java.util.List;
 
 public class ArchivioLibriJSON implements ArchivioLibri{
 
-    private Gson gson;
+    /**
+    * La classe ArchivioLibriJSON implementa l'interfaccia ArchivioLibri, fa uso della classe
+    * Gson per gestire l'accesso ai file JSon e di una variabie di tipo Strin e Path per mantenre  la locazione
+    * del file contente l'archivio. Utilizza inoltre una lista di observer per tenere traccia degli Observer
+    * che si registrano
+    *
+    * @See Gson
+    * @See ArchivioLibri
+    * */
+
+
+
+    private final Gson gson;
     private final String percorsoFileDB;
     private final Path fileJson;
     private final List<Observer> observers = new ArrayList<>();
@@ -77,6 +89,16 @@ public class ArchivioLibriJSON implements ArchivioLibri{
 
     @Override
     public void elimina(FiltroArchivio f){
+         /*
+         * Funzione che elimina i libri secondo le condizioni imposte dal @param f. La libreria Gson non permette
+         * di accedere tramite indice al file dunque per l'eliminazione si ricercano gli  oggetti da eliminare
+         * e si crea un file temporaneo senza quegli oggetti il quale successivamente verrà sovrascritto sul vecchio
+         * file dell'archvio
+         *
+         * */
+
+
+
         Path temp = Path.of(fileJson.toString() + ".tmp");
 
 
@@ -117,7 +139,9 @@ public class ArchivioLibriJSON implements ArchivioLibri{
 
     @Override
     public List<Libro> cerca(FiltroArchivio f, OrdinamentoArchivio o) {
-                List<Libro> libri = new ArrayList<>();
+
+
+        List<Libro> libri = new ArrayList<>();
 
         try (
                 JsonReader reader = new JsonReader(new FileReader(fileJson.toFile()));
@@ -146,6 +170,14 @@ public class ArchivioLibriJSON implements ArchivioLibri{
     }
 
 
+    /**
+    * Metodi @Override che implementano l'uso del design pattern Observer modificato, la funzione notifica infatti
+    * ha come @param libri che permette di notificare direttamente il cambiamento agli observer senza dover rieffettuare
+    * una richiesta di lettura dell'archivio
+    *
+    * @See Subject
+    * */
+
     @Override
     public void aggiungiObserver(Observer o) {
         observers.add(o);
@@ -166,6 +198,14 @@ public class ArchivioLibriJSON implements ArchivioLibri{
 
 
     private  void controllaOCreaFileJson() {
+         /*
+         * Funzione di utility privata che gestisce il caso in cui non vi sia il file contente l'archivio. La funzione
+         * se non trova il file corrtto ne crea uno vuoto
+         *
+         * */
+
+
+
         File file = new File(percorsoFileDB);
 
         if (!file.exists()) {

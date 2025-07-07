@@ -12,8 +12,6 @@ public abstract class AbstractFiltroArchivio<T> implements FiltroArchivio {
         this.parametroFiltro = parametroFiltro;
     }
 
-
-
     @Override
     public abstract boolean filtra(Libro l);
 

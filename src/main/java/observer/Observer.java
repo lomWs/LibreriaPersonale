@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface Observer {
 
-    void aggiorna(List<Libro> libri);
+    void  aggiorna(List<Libro> libri);
 
 }

@@ -9,56 +9,65 @@ import java.nio.file.*;
 import java.util.UUID;
 
 
-public class GestoreCopertina {
+public  class GestoreCopertina {
+
+    /**
+     * GestoreCopertina si occupa della gestione delle immagini assegnate come copertina dei libri e mostrate
+     * nel GridBoxLibroPanel
+     *
+     * @See GridBoxLibroPanel
+     * */
 
 
+    //prende la copertina dalla locazione fisica e la trasforma in un oggetto da mostrare nella GUI
     public static ImageIcon loadIcon(String imagePath, int width, int height) {
         if(imagePath.equals(" "))
             return null;
         try {
-            // Carica l'immagine dal percorso
+
             Image image = ImageIO.read(new File(imagePath));
 
-            // Ridimensiona l'immagine
+
             Image scaledImage = image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
 
-            // Restituisci un'ImageIcon con l'immagine ridimensionata
+
             return new ImageIcon(scaledImage);
 
         } catch (Exception e) {
-            // Gestisce eventuali eccezioni (file non trovato, formato immagine errato, ecc.)
+
             System.err.println("Errore nel caricare l'immagine: " + e.getMessage());
             return null;
         }
     }
 
-        // Metodo che copia e rinomina l'immagine usando l'ISBN del libro
+    // Metodo che copia e rinomina l'immagine usando l'ISBN del libro
     public static String salvataggioCopertina(File sourceFile) {
-            // check per vedere se il file inserito è un immagine
-            if (!estensioneValida(sourceFile)) {
-                JOptionPane.showMessageDialog(null, "File selezionato non è un'immagine valida.");
-                return null;
-            }
 
-            String targetPath = "resources/copertineLibri/" + UUID.randomUUID().toString() + "." + getEstensioneFile(sourceFile);
-
-            try {
-                // creo la cartella di destinazione se non esiste
-                Path targetDirectory = Paths.get("resources/copertineLibri");
-                if (!Files.exists(targetDirectory)) {
-                    Files.createDirectories(targetDirectory);
-                }
-
-                // copio il file selezionato nella cartella risorse
-                Path targetFile = Paths.get(targetPath);
-                Files.copy(sourceFile.toPath(), targetFile, StandardCopyOption.REPLACE_EXISTING);
-
-                return targetPath;
-            } catch (IOException e) {
-                System.err.println("Errore nel copiare o rinominare l'immagine: " + e.getMessage());
-                return null;
-            }
+        if (!estensioneValida(sourceFile)) {
+            JOptionPane.showMessageDialog(null, "File selezionato non è un'immagine valida.");
+            return null;
         }
+
+        //uso UUID per avere un nome univoco e non avere collisioni
+        String targetPath = "resources/copertineLibri/" + UUID.randomUUID().toString() + "." + getEstensioneFile(sourceFile);
+
+        try {
+
+            Path targetDirectory = Paths.get("resources/copertineLibri");
+            if (!Files.exists(targetDirectory)) {
+                Files.createDirectories(targetDirectory);
+            }
+
+
+            Path targetFile = Paths.get(targetPath);
+            Files.copy(sourceFile.toPath(), targetFile, StandardCopyOption.REPLACE_EXISTING);
+
+            return targetPath;
+        } catch (IOException e) {
+            System.err.println("Errore nel copiare o rinominare l'immagine: " + e.getMessage());
+            return null;
+        }
+    }
 
     // Verifica se il file è un'immagine
     private static boolean estensioneValida(File file) {

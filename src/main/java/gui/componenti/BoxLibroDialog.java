@@ -15,6 +15,20 @@ import java.util.stream.Collectors;
 
 public class BoxLibroDialog extends JDialog {
 
+    /**
+     *  La classe BoxLibroDialog viene istanziata a seguito di un evento, l'evento in questone è il click sul BoxLibro.
+     *  La BoxLibroDialog mostra le infomrazioni relative al @param libro passato nel costruttore e permette di
+     *  modificare stato/valutazione del libro e l'eliminazione dello stesso. Come da design l'interfaccia di riferimento
+     *  per la relazione è il controller
+     *
+     *
+     * @See TemaFactory
+     * @See Controller
+     * @See JPanel
+     * @See GestoreCopertina
+     * */
+
+
     private final TemaFactory tema;
     private final ControllerLibro controller;
     private final Libro libro;
@@ -130,6 +144,9 @@ public class BoxLibroDialog extends JDialog {
     }
 
 
+    /**
+     * Funzione detail che aggiunge settaggi grafici agiguntivi
+     * */
     private JPanel detail(String label, String value) {
         JPanel row = new JPanel(new BorderLayout());
         row.setBackground(tema.getColoreSecondarioSfondo());
@@ -163,7 +180,9 @@ public class BoxLibroDialog extends JDialog {
     }
 
 
-
+    /**
+     * Combo box agiguntiva nel caso in cui sia selezionata la possibità dall'utente di modificare stato/valutazione
+     * */
     private JPanel creaComboBoxPanel(String labelText, JComboBox<?> comboBox) {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBackground(tema.getColoreSecondarioSfondo());

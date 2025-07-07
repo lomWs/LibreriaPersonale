@@ -13,6 +13,18 @@ import java.util.List;
 
 public class MainFrame extends JFrame {
 
+    /**
+     * MainFrame è il Frame principale della GUI, fa da punto di accesso ai componenti della GUI, si occupa di
+     * istanziare i due componenti prinicpali QueryBarPanel e GridBoxLibroPanel
+     *
+     * @See GridBoxLibroPanel
+     * @See ControllerLibro
+     * @See TemaFactory
+     * @See QueryBarPanel
+     * */
+
+
+
     private final TemaFactory tema;
     private  GridBoxLibroPanel gridBoxLibroPanel;
     private  QueryBarPanel queryBar;
@@ -22,7 +34,8 @@ public class MainFrame extends JFrame {
 
         this.tema = GestoreTema.getInstance().getFactoryTemaAttuale();
         this.controller =controller;
-        //set per personalizzazioni grafiche
+
+        //personalizzazioni grafiche
         setTitle("Libreria personale");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1200, 800);
@@ -55,10 +68,6 @@ public class MainFrame extends JFrame {
 
         setVisible(true);
     }
-
-
-
-
 
 
 

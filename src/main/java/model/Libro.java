@@ -1,7 +1,17 @@
 package model;
+import java.io.Serializable;
 import java.util.*;
 
-public final class Libro {
+public final class Libro implements Serializable {
+
+    /**
+     * Classe Libro permette tramite Builder di avere molta modularità nella costruzione dell'oggetto infatti i soli campi
+     * resi obligatori sono autori,titolo,ISBN.
+     * */
+
+
+
+
     private List<Autore> autori ;
     private String titolo;
     private String ISBN;

@@ -15,6 +15,19 @@ import java.util.List;
 
 public class GridBoxLibroPanel extends JPanel implements Observer {
 
+
+    /**
+     *  La classe GridBoxLibroPanel contiene tutti i BoxLibro e si occupa della loro creazione e visualizzazione.GridBoxLibroPanel
+     *  implementa Observer grazie al quale viene notificato degli aggiornamenti avvenuti e di conseguenza offre la
+     *  lista dei BoxLibro consistenti con il backend
+     *
+     * @See TemaFactory
+     * @See Controller
+     * @See JPanel
+     * @See Observer
+     * */
+
+
     private final ControllerLibro controller;
     private final TemaFactory tema = GestoreTema.getInstance().getFactoryTemaAttuale();
 
@@ -26,11 +39,13 @@ public class GridBoxLibroPanel extends JPanel implements Observer {
         setOpaque(true);
 
 
-        for (int i = 0; i < libri.size(); i++) {
-            add(creaBox(libri.get(i)));
+        for (Libro libro : libri) {
+            add(creaBox(libro));
         }
     }
 
+
+    //metodo di creazione del singolo box
     private JPanel creaBox(Libro libro) {
         JPanel box = new BoxLibro(libro.getTitolo(),libro.getValutazione(),libro.getPercorsoCopertina());
 
@@ -38,8 +53,8 @@ public class GridBoxLibroPanel extends JPanel implements Observer {
         box.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                Frame parent = (Frame) SwingUtilities.getWindowAncestor(box);
-                new BoxLibroDialog(GridBoxLibroPanel.this.controller,parent, libro).setVisible(true);
+                Frame finestraPrincipale = (Frame) SwingUtilities.getWindowAncestor(box);
+                new BoxLibroDialog(GridBoxLibroPanel.this.controller,finestraPrincipale, libro).setVisible(true);
             }
 
             @Override
@@ -58,6 +73,9 @@ public class GridBoxLibroPanel extends JPanel implements Observer {
         return box;
     }
 
+
+    //metodo che permette il repaint() corretto dei libri
+    @Override
     public void aggiorna(List<Libro> libri) {
 
         if(libri == null){

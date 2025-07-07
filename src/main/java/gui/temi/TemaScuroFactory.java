@@ -8,6 +8,15 @@ import javax.swing.plaf.basic.ComboPopup;
 import java.awt.*;
 
 public class TemaScuroFactory implements TemaFactory {
+
+    /**
+     * Implementazione scura di TemaFactory che definisce come venogono creati i componenti base della GUI
+     * con i colori consistenti al tema concreto.
+     *
+     * @See TemaFactory
+     * */
+
+
     private final Color colorePrincipaleSfondo = new Color(25, 25, 25);
     private final Color coloreSecodarioSfondo = new Color(30, 30, 30);
     private final Color coloreTerziarioSfondo = new Color(60, 60, 60);
@@ -89,23 +98,6 @@ public class TemaScuroFactory implements TemaFactory {
     @Override
     public <T> JComboBox<T> creaComboBox(T[] elementi) {
         JComboBox<T> comboBox = new JComboBox<>(elementi);
-
-        //inserisco la scroll bar del tema anche all'interno del comboBox
-//        comboBox.setUI(new BasicComboBoxUI() {
-//           @Override
-//           protected ComboPopup createPopup() {
-//               BasicComboPopup popup = new BasicComboPopup(comboBox) {
-//                   @Override
-//                   protected JScrollPane createScroller() {
-//                       JScrollPane scroll = super.createScroller();
-//                       scroll.setVerticalScrollBar(GestoreTema.getInstance().getFactoryTemaAttuale().creaScrollBar());
-//                       scroll.getViewport().setBackground(GestoreTema.getInstance().getFactoryTemaAttuale().getColoreSecondarioSfondo());
-//                       return scroll;
-//                   }
-//               };
-//               return popup;
-//           }
-//        });
 
         comboBox.setFont(getFontPrimario());
         comboBox.setBackground(getColoreSecondarioSfondo().darker());

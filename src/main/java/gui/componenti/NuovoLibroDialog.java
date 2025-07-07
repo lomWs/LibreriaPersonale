@@ -19,6 +19,20 @@ import java.util.Set;
 
 public class NuovoLibroDialog extends JDialog {
 
+    /**
+     *  La classe NuovoLibroDialog viene creata a seguito di un evento, l'evento in questone è il click sul bottone aggiungi
+     *  nella QueryBarPanel.
+     *  La NuovoLibroDialog è l'unico punto di accesso da parte dell'utente di inserire un nuovo libro. Mette a disposisione
+     *  tutti i campi e la possibilità di inserire una copertina, la scelta progettuale prevede massima libertà nella creazione
+     *  anche di inserire un solo libro senza ISBN infatti l'unico controllo effettuato è sulla presenza di più ISBN uguali.
+     *
+     *
+     * @See TemaFactory
+     * @See Controller
+     * @See JPanel
+     * @See GestoreCopertina
+     * */
+
     private String percorsoCopertina =" ";
 
     private  JTextField titoloField;
