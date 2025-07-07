@@ -9,8 +9,8 @@ import java.util.List;
 
 public class QueryArchivioCerca extends AbstractQueryArchivio {
 
-    private FiltroArchivio f;
-    private OrdinamentoArchivio o;
+    private final FiltroArchivio f;
+    private final OrdinamentoArchivio o;
 
     public QueryArchivioCerca(ArchivioLibri a){
         super(a);

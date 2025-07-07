@@ -76,7 +76,7 @@ public class NuovoLibroDialog extends JDialog {
 
         JButton salva = tema.creaBottonePrincipale("Salva");
 
-        salva.addActionListener(e -> {
+        salva.addActionListener(_ -> {
             String titolo = titoloField.getText().trim();
             String isbn = isbnField.getText().trim();
             Set<GenereLibro> generi = new HashSet<>(generiList.getSelectedValuesList());
@@ -117,11 +117,11 @@ public class NuovoLibroDialog extends JDialog {
         });
 
         JButton annulla = tema.creaBottoneElimina("Annulla");
-        annulla.addActionListener(e -> dispose());
+        annulla.addActionListener(_ -> dispose());
 
         JButton bottoneCaricaCopertina = tema.creaBottonePrincipale("Carica copertina");
 
-        bottoneCaricaCopertina.addActionListener(e -> {
+        bottoneCaricaCopertina.addActionListener(_ -> {
             // Crea un JFileChooser per la selezione del file immagine
             JFileChooser fileChooser = new JFileChooser();
             fileChooser.setDialogTitle("Seleziona una copertina per il libro");
@@ -166,8 +166,7 @@ public class NuovoLibroDialog extends JDialog {
         label.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 0));
         panel.add(label, BorderLayout.NORTH);
 
-//        field.setPreferredSize(new Dimension(200, 30));
-//        field.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
+
         panel.add(field, BorderLayout.CENTER);
         return panel;
     }
@@ -192,7 +191,7 @@ public class NuovoLibroDialog extends JDialog {
         JButton aggiungi = tema.creaBottonePrincipale("+ Aggiungi autore");
         aggiungi.setFont(tema.getFontPrimario());
         aggiungi.setAlignmentX(Component.LEFT_ALIGNMENT);
-        aggiungi.addActionListener(e -> aggiungiCampiAutore());
+        aggiungi.addActionListener(_ -> aggiungiCampiAutore());
         panel.add(Box.createVerticalStrut(10));
         panel.add(aggiungi);
 
