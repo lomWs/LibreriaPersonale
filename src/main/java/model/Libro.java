@@ -9,7 +9,7 @@ public final class Libro {
     private StatoLibro stato; //stato di lettura, non letto, letto ed iniziato
     private Set<GenereLibro> generi;
     private ValutazioneLibro valutazione;
-    private String percorsoCopertina;
+    private String percorsoCopertina = " ";
 
 
 
