@@ -11,6 +11,7 @@ import query.ordinamento.OrdinamentoArchivio;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,8 +27,6 @@ public class ArchivioLibriJSON implements ArchivioLibri{
     * @See Gson
     * @See ArchivioLibri
     * */
-
-
 
     private final Gson gson;
     private final String percorsoFileDB;
@@ -52,7 +51,6 @@ public class ArchivioLibriJSON implements ArchivioLibri{
         this.gson=gson;
 
     }
-
 
     @Override
     public void inserisci(Libro l) throws LibriPresentiException{
@@ -85,7 +83,6 @@ public class ArchivioLibriJSON implements ArchivioLibri{
         }
         notifica(libriGiaPresenti);
     }
-
 
     @Override
     public void elimina(FiltroArchivio f){
@@ -133,9 +130,6 @@ public class ArchivioLibriJSON implements ArchivioLibri{
 
         notifica(null);
     }
-
-
-
 
     @Override
     public List<Libro> cerca(FiltroArchivio f, OrdinamentoArchivio o) {
@@ -210,6 +204,11 @@ public class ArchivioLibriJSON implements ArchivioLibri{
 
         if (!file.exists()) {
             try {
+                Path targetDirectory = Paths.get("resources");
+                if (!Files.exists(targetDirectory)) {
+                    Files.createDirectories(targetDirectory);
+                }
+
                 file.createNewFile();
                 try (FileWriter writer = new FileWriter(file)) {
                     writer.write("[]");
