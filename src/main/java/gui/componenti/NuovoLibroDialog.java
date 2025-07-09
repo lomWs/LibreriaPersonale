@@ -130,7 +130,12 @@ public class NuovoLibroDialog extends JDialog {
         });
 
         JButton annulla = tema.creaBottoneElimina("Annulla");
-        annulla.addActionListener(_ -> dispose());
+        annulla.addActionListener(_ ->
+            {
+                GestoreCopertina.eliminaCopertina(this.percorsoCopertina);
+                dispose();
+            }
+        );
 
         JButton bottoneCaricaCopertina = tema.creaBottonePrincipale("Carica copertina");
 
