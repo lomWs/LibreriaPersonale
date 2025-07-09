@@ -18,7 +18,6 @@ public  class GestoreCopertina {
      * @See GridBoxLibroPanel
      * */
 
-
     //prende la copertina dalla locazione fisica e la trasforma in un oggetto da mostrare nella GUI
     public static ImageIcon loadIcon(String imagePath, int width, int height) {
         if(imagePath.equals(" "))
@@ -69,13 +68,13 @@ public  class GestoreCopertina {
         }
     }
 
-    // Verifica se il file è un'immagine
+    // controllo estensione se supportata
     private static boolean estensioneValida(File file) {
         String extension = getEstensioneFile(file);
         return extension.equalsIgnoreCase("jpg") || extension.equalsIgnoreCase("jpeg") || extension.equalsIgnoreCase("png");
     }
 
-    // Estrai l'estensione del file
+    // prende l'estensione del file
     private static String getEstensioneFile(File file) {
         String nomeFile = file.getName();
         int indicePunto = nomeFile.lastIndexOf(".");

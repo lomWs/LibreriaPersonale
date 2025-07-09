@@ -22,7 +22,6 @@ public class MainFrame extends JFrame {
      * @See TemaFactory
      * @See QueryBarPanel
      * */
-
     private final TemaFactory tema;
     private  GridBoxLibroPanel gridBoxLibroPanel;
     private  QueryBarPanel queryBar;
@@ -42,7 +41,6 @@ public class MainFrame extends JFrame {
         inizializzaGUI();
 
     }
-
 
 
     private void inizializzaGUI(){
@@ -66,7 +64,6 @@ public class MainFrame extends JFrame {
 
         setVisible(true);
     }
-
 
 
 }
