@@ -18,7 +18,6 @@ public interface ArchivioLibri extends Subject {
     *
     * */
 
-
     public void inserisci(Libro l) throws LibriPresentiException;
 
     public default void inserisci(List<Libro> libri)throws LibriPresentiException{
@@ -36,18 +35,15 @@ public interface ArchivioLibri extends Subject {
         for(String s: listaISBN)
             elimina(s);
     }
-
     public default void modifica(Libro libroModificato){
         elimina(libroModificato.getISBN());
         inserisci(libroModificato);
 
     }
-
     public default void modifica(List<Libro> libriMod){
         for(Libro l: libriMod)
             modifica(l);
     }
-
 
     public List<Libro> cerca(FiltroArchivio f, OrdinamentoArchivio o);
 
