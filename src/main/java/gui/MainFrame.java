@@ -23,8 +23,6 @@ public class MainFrame extends JFrame {
      * @See QueryBarPanel
      * */
 
-
-
     private final TemaFactory tema;
     private  GridBoxLibroPanel gridBoxLibroPanel;
     private  QueryBarPanel queryBar;

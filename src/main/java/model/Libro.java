@@ -48,7 +48,9 @@ public final class Libro implements Serializable {
 
 
 
-        public LibroBuilder(List<Autore> autori,String titolo,String ISBN){
+        public LibroBuilder(List<Autore> autori,String titolo,String ISBN) throws IllegalArgumentException{
+            if(ISBN.isEmpty())
+                throw new IllegalStateException("L'ISBN non può essere vuoto ");
             this.autori=autori;
             this.titolo=titolo;
             this.ISBN=ISBN;

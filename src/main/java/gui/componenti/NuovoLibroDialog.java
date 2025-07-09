@@ -107,21 +107,20 @@ public class NuovoLibroDialog extends JDialog {
                     autori.add(new Autore(nome, cognome));
                 }
             }
-            Libro nuovoLibro = new Libro.LibroBuilder(autori,titolo,isbn)
-                    .generi(generi)
-                    .valutazione(valutazione)
-                    .stato(statoLibro)
-                    .build();
-            nuovoLibro.setPercorsoCopertina(this.percorsoCopertina);
-
-
-
-
             try {
+
+                Libro nuovoLibro = new Libro.LibroBuilder(autori,titolo,isbn)
+                        .generi(generi)
+                        .valutazione(valutazione)
+                        .stato(statoLibro)
+                        .build();
+                nuovoLibro.setPercorsoCopertina(this.percorsoCopertina);
+
+
                 controller.aggiungi(nuovoLibro);
             } catch (RuntimeException ex) {
                 JOptionPane.showMessageDialog(this,
-                        "Errore: ISBN già presente o libro duplicato.",
+                        ex.getMessage(),
                         "Errore di inserimento",
                         JOptionPane.ERROR_MESSAGE);
             }
@@ -136,20 +135,17 @@ public class NuovoLibroDialog extends JDialog {
         JButton bottoneCaricaCopertina = tema.creaBottonePrincipale("Carica copertina");
 
         bottoneCaricaCopertina.addActionListener(_ -> {
-            // Crea un JFileChooser per la selezione del file immagine
+            // JFileChooser server per la selezione del file immagine
             JFileChooser fileChooser = new JFileChooser();
             fileChooser.setDialogTitle("Seleziona una copertina per il libro");
 
-            // Apre la finestra di dialogo per scegliere un file
+            // finestra di dialogo per scegliere un file
             int result = fileChooser.showOpenDialog(this);
             if (result == JFileChooser.APPROVE_OPTION) {
                 // Se l'utente ha selezionato un file
                 File selectedFile = fileChooser.getSelectedFile();
 
                 this.percorsoCopertina = GestoreCopertina.salvataggioCopertina(selectedFile);
-
-
-
 
             }
         });
@@ -291,7 +287,6 @@ public class NuovoLibroDialog extends JDialog {
             }
         });
     }
-
 
 
 

@@ -58,7 +58,7 @@ public class ArchivioLibriJSON implements ArchivioLibri{
     public void inserisci(Libro l) throws LibriPresentiException{
         List<Libro> libriGiaPresenti = cerca(null,null);
         if(libriGiaPresenti.contains(l))
-            throw new LibriPresentiException("Il libro è già stato inserito");
+            throw new LibriPresentiException();
         libriGiaPresenti.add(l);
         try(FileWriter fw = new FileWriter(fileJson.toFile());) {
             this.gson.toJson(libriGiaPresenti,fw);
@@ -74,7 +74,7 @@ public class ArchivioLibriJSON implements ArchivioLibri{
     public void inserisci(List<Libro> libri) throws LibriPresentiException {
          List<Libro> libriGiaPresenti = cerca(null,null);
         if(libri.stream().anyMatch(libriGiaPresenti::contains))
-            throw new LibriPresentiException("Almeno un libro è già stato inserito");
+            throw new LibriPresentiException("Almeno un libro con lo stesso ISBN è già stato inserito");
 
         libriGiaPresenti.addAll(libri);
         try(FileWriter fw = new FileWriter(fileJson.toFile());) {
