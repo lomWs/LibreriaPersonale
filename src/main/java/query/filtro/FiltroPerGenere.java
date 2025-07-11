@@ -4,7 +4,7 @@ import model.GenereLibro;
 import model.Libro;
 
 public class FiltroPerGenere extends AbstractFiltroArchivio<GenereLibro> {
-    //private GenereLibro genere;
+
 
     public FiltroPerGenere(GenereLibro g){
         super(g);

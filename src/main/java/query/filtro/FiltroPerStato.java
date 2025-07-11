@@ -5,7 +5,7 @@ import model.StatoLibro;
 
 public class FiltroPerStato extends AbstractFiltroArchivio<StatoLibro> {
 
-    //private StatoLibro stato;
+
 
     public FiltroPerStato(StatoLibro s ){
         super(s);
