@@ -1,0 +1,78 @@
+[
+{
+  "autori": [
+    {
+      "nome": "George",
+      "cognome": "Orwell"
+    }
+  ],
+  "titolo": "1984",
+  "ISBN": "98656-576876-7676",
+  "stato": "IN_LETTURA",
+  "generi": [
+    "POLITICO",
+    "DISTOPICO"
+  ],
+  "valutazione": "ECCELLENTE",
+  "percorsoCopertina": "resources/copertineLibri/3f1ec20d-f6b8-41ab-8612-5714dc61d89b.png"
+},{
+  "autori": [
+    {
+      "nome": "Jane",
+      "cognome": "Austen"
+    }
+  ],
+  "titolo": "Orgoglio e pregiudizio",
+  "ISBN": "985875-58754-46436",
+  "stato": "DA_LEGGERE",
+  "generi": [
+    "ROMANZO"
+  ],
+  "valutazione": "BUONO",
+  "percorsoCopertina": "resources/copertineLibri/b5bbd4e1-1319-4bfd-92a5-a7ccc8892443.png"
+},{
+  "autori": [
+    {
+      "nome": "Franz",
+      "cognome": "Kafka"
+    }
+  ],
+  "titolo": "Il processo",
+  "ISBN": "9876556-6856-8456754",
+  "stato": "LETTO",
+  "generi": [
+    "ROMANZO"
+  ],
+  "valutazione": "OTTIMO",
+  "percorsoCopertina": "resources/copertineLibri/143e9d13-799f-45c2-86d4-2d52ab7fb31f.png"
+},{
+  "autori": [
+    {
+      "nome": "Fëdor",
+      "cognome": "Dostoevskij"
+    }
+  ],
+  "titolo": "Le notti bianche",
+  "ISBN": "98564-56745342-534444",
+  "stato": "LETTO",
+  "generi": [
+    "ROMANZO"
+  ],
+  "valutazione": "ECCELLENTE",
+  "percorsoCopertina": "resources/copertineLibri/5f0797a2-370f-4100-b62a-9bb781547025.png"
+},{
+  "autori": [
+    {
+      "nome": "Immanuel",
+      "cognome": "Kant"
+    }
+  ],
+  "titolo": "Critica della ragion pura",
+  "ISBN": "986563653-42652456345-455",
+  "stato": "LETTO",
+  "generi": [
+    "OTHER"
+  ],
+  "valutazione": "ECCELLENTE",
+  "percorsoCopertina": "resources/copertineLibri/78e45365-7578-408f-99c7-df9dcf838dc3.png"
+}]
