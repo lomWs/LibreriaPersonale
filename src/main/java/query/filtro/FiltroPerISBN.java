@@ -5,7 +5,7 @@ import model.Libro;
 
 public class FiltroPerISBN extends AbstractFiltroArchivio<String>{
 
-    //private String ISBN;
+
 
     public FiltroPerISBN(String ISBN){super(ISBN);}
 

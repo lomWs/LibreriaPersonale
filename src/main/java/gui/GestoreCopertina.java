@@ -18,6 +18,8 @@ public  class GestoreCopertina {
      * @See GridBoxLibroPanel
      * */
 
+    private static final String percorsoCopertine="resources/copertineLibri";
+
     //prende la copertina dalla locazione fisica e la trasforma in un oggetto da mostrare nella GUI
     public static ImageIcon loadIcon(String imagePath, int width, int height) {
         if(imagePath.equals(" "))
@@ -48,11 +50,11 @@ public  class GestoreCopertina {
         }
 
         //uso UUID per avere un nome univoco e non avere collisioni
-        String targetPath = "resources/copertineLibri/" + UUID.randomUUID().toString() + "." + getEstensioneFile(sourceFile);
+        String targetPath = percorsoCopertine +"/"+ UUID.randomUUID().toString() + "." + getEstensioneFile(sourceFile);
 
         try {
 
-            Path targetDirectory = Paths.get("resources/copertineLibri");
+            Path targetDirectory = Paths.get(percorsoCopertine);
             if (!Files.exists(targetDirectory)) {
                 Files.createDirectories(targetDirectory);
             }
